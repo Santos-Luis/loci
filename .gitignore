@@ -1,0 +1,17 @@
+node_modules
+out
+dist
+
+# Database and user data
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+.loci/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode
+.idea
