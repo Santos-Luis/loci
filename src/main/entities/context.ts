@@ -1,5 +1,5 @@
-import type { SearchHit } from './search';
-import type { Message } from './message';
+import { SearchHit } from './search';
+import { Message } from './message';
 
 export type RetrievedContext = {
 	hits: SearchHit[];

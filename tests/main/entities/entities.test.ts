@@ -1,11 +1,11 @@
-import type { Topic } from '../../../src/main/entities/topic';
-import type { Note } from '../../../src/main/entities/note';
-import type { Conversation } from '../../../src/main/entities/conversation';
-import type { Message, MessageRole } from '../../../src/main/entities/message';
-import type { Insight, InsightType } from '../../../src/main/entities/insight';
-import type { Setting } from '../../../src/main/entities/setting';
-import type { SearchHit, SearchSource } from '../../../src/main/entities/search';
-import type { RetrievedContext } from '../../../src/main/entities/context';
+import { Topic } from '../../../src/main/entities/topic';
+import { Note } from '../../../src/main/entities/note';
+import { Conversation } from '../../../src/main/entities/conversation';
+import { Message, MessageRole } from '../../../src/main/entities/message';
+import { Insight, InsightType } from '../../../src/main/entities/insight';
+import { Setting } from '../../../src/main/entities/setting';
+import { SearchHit, SearchSource } from '../../../src/main/entities/search';
+import { RetrievedContext } from '../../../src/main/entities/context';
 
 describe('entities', () => {
 	it('compose into valid objects', () => {

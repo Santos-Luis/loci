@@ -29,6 +29,7 @@ This file captures durable project rules for agents working in this repository.
 - Use arrow functions for callbacks, inline behaviour, array/promise methods, object/JSX properties, event handlers
 - No classes or factory functions returning method objects
 - Use `type` instead of `interface` for all type definitions
+- Use plain `import { ... }` — never `import type { ... }`
 - Pass plain data (db, config, IDs, strings) as arguments
 - If a function has more than 2 arguments, use named arguments with a single object parameter
 - For named arguments, prefer destructuring in the function signature
