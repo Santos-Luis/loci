@@ -1,4 +1,4 @@
-import type { Knex } from 'knex';
+import { Knex } from 'knex';
 import { createDb, applyPragmas } from '../../src/main/db/knex';
 import { runMigrations } from '../../src/main/db/migrate';
 

@@ -1,4 +1,4 @@
-import type { Knex } from 'knex';
+import { Knex } from 'knex';
 import * as initial from './migrations/001_initial';
 
 interface Migration {

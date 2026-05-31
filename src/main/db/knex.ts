@@ -1,5 +1,5 @@
 import knex from 'knex';
-import type { Knex } from 'knex';
+import { Knex } from 'knex';
 
 export function createDb(filename: string): Knex {
 	return knex({

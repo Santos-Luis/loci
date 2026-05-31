@@ -1,4 +1,4 @@
-import type { Knex } from 'knex';
+import { Knex } from 'knex';
 
 export async function up(db: Knex): Promise<void> {
 	await db.schema.createTable('topics', (t) => {
