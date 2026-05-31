@@ -1,4 +1,4 @@
-export interface Setting {
+export type Setting = {
 	key: string;
 	value: string;
-}
+};
