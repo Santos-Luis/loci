@@ -1,0 +1,32 @@
+import { Knex } from 'knex';
+import { makeTestDb } from '../../helpers/db';
+import { getSetting, getAllSettings, setSettings } from '../../../src/main/repositories/settings';
+
+let db: Knex;
+
+beforeEach(async () => {
+	db = await makeTestDb();
+});
+
+afterEach(async () => {
+	await db.destroy();
+});
+
+describe('settings repository', () => {
+	it('reads a seeded setting', async () => {
+		expect(await getSetting(db, 'model')).toBe('claude-sonnet-4-6');
+		expect(await getSetting(db, 'missing')).toBeUndefined();
+	});
+
+	it('returns all settings as a record', async () => {
+		const all = await getAllSettings(db);
+		expect(all.claude_path).toBe('claude');
+		expect(all.daily_time).toBe('08:00');
+	});
+
+	it('upserts settings', async () => {
+		await setSettings(db, { model: 'claude-haiku-4-5-20251001', daily_time: '09:30' });
+		expect(await getSetting(db, 'model')).toBe('claude-haiku-4-5-20251001');
+		expect(await getSetting(db, 'daily_time')).toBe('09:30');
+	});
+});
