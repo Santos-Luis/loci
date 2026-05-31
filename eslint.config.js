@@ -1,6 +1,6 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
+import js from '@eslint/js';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 const testGlobals = {
 	afterEach: 'readonly',
@@ -9,11 +9,11 @@ const testGlobals = {
 	expect: 'readonly',
 	it: 'readonly',
 	vi: 'readonly',
-}
+};
 
 export default tseslint.config(
 	{
-		ignores: ['out', 'node_modules'],
+		ignores: ['out', 'dist', 'node_modules'],
 	},
 	js.configs.recommended,
 	...tseslint.configs.recommended,
@@ -44,4 +44,4 @@ export default tseslint.config(
 			},
 		},
 	},
-)
+);
