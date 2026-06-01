@@ -1,4 +1,4 @@
-import { AppContext } from '../entities/context';
+import { AppContext } from '../entities/app-context';
 
 type SettingRow = {
 	key: string;

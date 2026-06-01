@@ -1,4 +1,4 @@
-import { AppContext } from '../entities/context';
+import { AppContext } from '../entities/app-context';
 import { SearchHit } from '../entities/search';
 import { Message } from '../entities/message';
 import { RetrievedContext } from '../entities/context';
@@ -14,8 +14,6 @@ export function sanitizeFtsQuery(input: string): string {
 	return tokens.map((token) => `"${token}"`).join(' OR ');
 }
 
-const TOPIC_BOOST = 1.5;
-
 export function mergeHits({
 	groups,
 	topicId,
@@ -25,11 +23,12 @@ export function mergeHits({
 	topicId: number | null;
 	limit: number;
 }): SearchHit[] {
+	const topicBoost = 1.5;
 	const all = groups.flat();
 
 	const relevance = (hit: SearchHit): number => {
 		const base = -hit.score;
-		const boosted = topicId !== null && hit.topicId === topicId ? base * TOPIC_BOOST : base;
+		const boosted = topicId !== null && hit.topicId === topicId ? base * topicBoost : base;
 
 		return boosted;
 	};

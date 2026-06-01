@@ -1,4 +1,4 @@
-import { AppContext } from '../entities/context';
+import { AppContext } from '../entities/app-context';
 import { Topic, TopicRow } from '../entities/topic';
 
 export async function createTopic({

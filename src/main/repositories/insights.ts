@@ -1,4 +1,4 @@
-import { AppContext } from '../entities/context';
+import { AppContext } from '../entities/app-context';
 import { Insight, InsightType, InsightRow } from '../entities/insight';
 
 export async function createInsight({

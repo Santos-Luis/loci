@@ -1,5 +1,5 @@
 import { makeTestDb } from '../../helpers/db';
-import { AppContext } from '../../../src/main/entities/context';
+import { AppContext } from '../../../src/main/entities/app-context';
 import { getSetting, getAllSettings, setSettings } from '../../../src/main/repositories/settings';
 
 let ctx: AppContext;

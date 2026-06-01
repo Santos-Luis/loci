@@ -1,4 +1,4 @@
-import { AppContext } from '../../../src/main/entities/context';
+import { AppContext } from '../../../src/main/entities/app-context';
 import { makeTestDb } from '../../helpers/db';
 import { createNote } from '../../../src/main/repositories/notes';
 import { createConversation } from '../../../src/main/repositories/conversations';

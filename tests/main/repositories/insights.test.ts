@@ -1,5 +1,5 @@
 import { makeTestDb } from '../../helpers/db';
-import { AppContext } from '../../../src/main/entities/context';
+import { AppContext } from '../../../src/main/entities/app-context';
 import {
 	createInsight,
 	listInsights,

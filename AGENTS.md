@@ -31,17 +31,17 @@ This file captures durable project rules for agents working in this repository.
 - No classes or factory functions returning method objects
 - Use `type` instead of `interface` for all type definitions
 - Use plain `import { ... }` — never `import type { ... }`
-- Pass dependencies via a `Context` object (`src/main/entities/context.ts`, `{ db: Knex }`), never bare `db: Knex`
-- If a function has exactly 1 argument, take it directly (e.g. `listTopics(ctx: Context)`)
+- Pass dependencies via an `AppContext` object (`src/main/entities/app-context.ts`, `{ db: Knex }`), never bare `db: Knex`
+- If a function has exactly 1 argument, take it directly (e.g. `listTopics(ctx: AppContext)`)
 - If a function has more than 1 argument, wrap ALL of them — including `ctx` — in a single destructured named-args object:
-  - ✅ `createTopic({ ctx, name, description }: { ctx: Context; name: string; description: string | null })`
-  - ❌ `createTopic(ctx: Context, { name, description })` — do not split ctx from data args
+  - ✅ `createTopic({ ctx, name, description }: { ctx: AppContext; name: string; description: string | null })`
+  - ❌ `createTopic(ctx: AppContext, { name, description })` — do not split ctx from data args
 - Always put a blank line after an `if` block that is followed by more code
 
 ## Repository Conventions
 
 - Repositories are focused on persistence only — no validation, no orchestration
-- Each repository function receives a `Context` object (never bare `db: Knex`) following the named-args convention above
+- Each repository function receives an `AppContext` object (never bare `db: Knex`) following the named-args convention above
 - Non-exported helper functions (`mapX`, `findX`) go at the end of the file, after all exports
 - Use a separate `const` for each awaited intermediate value — do not nest awaits inside function call arguments
 - Boolean columns stored as integers (0/1) must be normalised at the repository boundary
