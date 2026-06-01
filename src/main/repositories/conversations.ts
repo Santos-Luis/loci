@@ -1,4 +1,4 @@
-import { Context } from '../entities/context';
+import { AppContext } from '../entities/app-context';
 import { Conversation, ConversationRow } from '../entities/conversation';
 
 export async function createConversation({
@@ -6,7 +6,7 @@ export async function createConversation({
 	topicId,
 	title,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	topicId: number | null;
 	title: string;
 }): Promise<Conversation> {
@@ -20,7 +20,7 @@ export async function getConversation({
 	ctx,
 	id,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	id: number;
 }): Promise<Conversation | undefined> {
 	const row = await ctx.db<ConversationRow>('conversations').where({ id }).first();
@@ -32,7 +32,7 @@ export async function listConversations({
 	ctx,
 	limit,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	limit: number;
 }): Promise<Conversation[]> {
 	const rows = await ctx.db<ConversationRow>('conversations').orderBy('id', 'desc').limit(limit);
@@ -44,7 +44,7 @@ export async function listConversationsByTopic({
 	ctx,
 	topicId,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	topicId: number;
 }): Promise<Conversation[]> {
 	const rows = await ctx
