@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
 
-export type AppContext = {
+export type Context = {
 	db: Knex;
 };

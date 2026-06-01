@@ -1,4 +1,4 @@
-import { AppContext } from '../context';
+import { Context } from '../context';
 
 type SettingRow = {
 	key: string;
@@ -9,7 +9,7 @@ export async function getSetting({
 	ctx,
 	key,
 }: {
-	ctx: AppContext;
+	ctx: Context;
 	key: string;
 }): Promise<string | undefined> {
 	const row = await ctx.db<SettingRow>('settings').where({ key }).first();
@@ -17,7 +17,7 @@ export async function getSetting({
 	return row?.value;
 }
 
-export async function getAllSettings(ctx: AppContext): Promise<Record<string, string>> {
+export async function getAllSettings(ctx: Context): Promise<Record<string, string>> {
 	const rows = await ctx.db<SettingRow>('settings').select('key', 'value');
 
 	return Object.fromEntries(rows.map((r) => [r.key, r.value]));
@@ -27,7 +27,7 @@ export async function setSettings({
 	ctx,
 	values,
 }: {
-	ctx: AppContext;
+	ctx: Context;
 	values: Record<string, string>;
 }): Promise<void> {
 	for (const [key, value] of Object.entries(values)) {

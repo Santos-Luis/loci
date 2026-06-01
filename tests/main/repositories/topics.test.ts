@@ -1,8 +1,8 @@
 import { makeTestDb } from '../../helpers/db';
-import { AppContext } from '../../../src/main/context';
+import { Context } from '../../../src/main/context';
 import { createTopic, listTopics, getTopic } from '../../../src/main/repositories/topics';
 
-let ctx: AppContext;
+let ctx: Context;
 
 beforeEach(async () => {
 	ctx = { db: await makeTestDb() };

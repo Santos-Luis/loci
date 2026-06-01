@@ -1,5 +1,5 @@
 import { makeTestDb } from '../../helpers/db';
-import { AppContext } from '../../../src/main/context';
+import { Context } from '../../../src/main/context';
 import { createConversation } from '../../../src/main/repositories/conversations';
 import {
 	createMessage,
@@ -7,7 +7,7 @@ import {
 	listRecentMessages,
 } from '../../../src/main/repositories/messages';
 
-let ctx: AppContext;
+let ctx: Context;
 
 beforeEach(async () => {
 	ctx = { db: await makeTestDb() };

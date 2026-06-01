@@ -1,5 +1,5 @@
 import { makeTestDb } from '../../helpers/db';
-import { AppContext } from '../../../src/main/context';
+import { Context } from '../../../src/main/context';
 import { createTopic } from '../../../src/main/repositories/topics';
 import { createNote } from '../../../src/main/repositories/notes';
 import { createConversation } from '../../../src/main/repositories/conversations';
@@ -7,7 +7,7 @@ import { createMessage } from '../../../src/main/repositories/messages';
 import { createInsight } from '../../../src/main/repositories/insights';
 import { searchNotes, searchMessages, searchInsights } from '../../../src/main/repositories/search';
 
-let ctx: AppContext;
+let ctx: Context;
 
 beforeEach(async () => {
 	ctx = { db: await makeTestDb() };

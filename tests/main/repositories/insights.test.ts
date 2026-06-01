@@ -1,5 +1,5 @@
 import { makeTestDb } from '../../helpers/db';
-import { AppContext } from '../../../src/main/context';
+import { Context } from '../../../src/main/context';
 import {
 	createInsight,
 	listInsights,
@@ -8,7 +8,7 @@ import {
 	markAllInsightsRead,
 } from '../../../src/main/repositories/insights';
 
-let ctx: AppContext;
+let ctx: Context;
 
 beforeEach(async () => {
 	ctx = { db: await makeTestDb() };

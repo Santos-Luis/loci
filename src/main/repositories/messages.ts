@@ -1,4 +1,4 @@
-import { AppContext } from '../context';
+import { Context } from '../context';
 import { Message, MessageRole, MessageRow } from '../entities/message';
 
 export async function createMessage({
@@ -7,7 +7,7 @@ export async function createMessage({
 	role,
 	content,
 }: {
-	ctx: AppContext;
+	ctx: Context;
 	conversationId: number;
 	role: MessageRole;
 	content: string;
@@ -24,7 +24,7 @@ export async function listMessages({
 	ctx,
 	conversationId,
 }: {
-	ctx: AppContext;
+	ctx: Context;
 	conversationId: number;
 }): Promise<Message[]> {
 	const rows = await ctx
@@ -40,7 +40,7 @@ export async function listRecentMessages({
 	conversationId,
 	limit,
 }: {
-	ctx: AppContext;
+	ctx: Context;
 	conversationId: number;
 	limit: number;
 }): Promise<Message[]> {
