@@ -19,6 +19,7 @@ This file captures durable project rules for agents working in this repository.
 
 - Exported types live under `src/main/entities/` by domain
 - Do not export entity types from repositories, managers, or other layers — import from entities only
+- DB row types (`TopicRow`, `NoteRow`, etc.) live in their entity file alongside the camelCase domain type — not in the repository file
 - The renderer's `src/renderer/src/lib/types.ts` mirrors the relevant entity types for the UI layer; keep them in sync manually
 
 ## Programming Style
@@ -30,14 +31,19 @@ This file captures durable project rules for agents working in this repository.
 - No classes or factory functions returning method objects
 - Use `type` instead of `interface` for all type definitions
 - Use plain `import { ... }` — never `import type { ... }`
-- Pass plain data (db, config, IDs, strings) as arguments
-- If a function has more than 2 arguments, use named arguments with a single object parameter
-- For named arguments, prefer destructuring in the function signature
+- Pass dependencies via a `Context` object (`src/main/context.ts`, `{ db: Knex }`), never bare `db: Knex`
+- If a function has exactly 1 argument, take it directly (e.g. `listTopics(ctx: Context)`)
+- If a function has more than 1 argument, wrap ALL of them — including `ctx` — in a single destructured named-args object:
+  - ✅ `createTopic({ ctx, name, description }: { ctx: Context; name: string; description: string | null })`
+  - ❌ `createTopic(ctx: Context, { name, description })` — do not split ctx from data args
+- Always put a blank line after an `if` block that is followed by more code
 
 ## Repository Conventions
 
 - Repositories are focused on persistence only — no validation, no orchestration
-- Each repository function accepts `db: Knex` as its first argument (or as part of a named-arg object)
+- Each repository function receives a `Context` object (never bare `db: Knex`) following the named-args convention above
+- Non-exported helper functions (`mapX`, `findX`) go at the end of the file, after all exports
+- Use a separate `const` for each awaited intermediate value — do not nest awaits inside function call arguments
 - Boolean columns stored as integers (0/1) must be normalised at the repository boundary
 
 ## Manager Conventions
