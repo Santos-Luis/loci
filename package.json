@@ -46,6 +46,7 @@
     "electron-builder": "^26.0.0",
     "electron-vite": "^3.0.0",
     "eslint": "^9.25.0",
+    "eslint-config-prettier": "^10.1.8",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
     "jsdom": "^26.0.0",

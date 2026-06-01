@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import prettier from 'eslint-config-prettier';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -26,12 +27,10 @@ export default tseslint.config(
 			},
 		},
 		rules: {
-			'indent': ['error', 'tab', { SwitchCase: 1 }],
 			'padding-line-between-statements': [
 				'error',
 				{ blankLine: 'always', prev: '*', next: 'return' },
 			],
-			'quotes': ['error', 'single', { avoidEscape: true }],
 		},
 	},
 	{
@@ -44,4 +43,5 @@ export default tseslint.config(
 			},
 		},
 	},
+	prettier,
 );
