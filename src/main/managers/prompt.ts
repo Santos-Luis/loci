@@ -1,8 +1,6 @@
 import { Topic } from '../entities/topic';
 import { RetrievedContext } from '../entities/context';
 
-const MAX_HIT_CHARS = 500;
-
 export function buildAskPrompt({
 	topics,
 	context,
@@ -71,10 +69,12 @@ function renderHits(context: RetrievedContext): string {
 		return '(no relevant memory found)';
 	}
 
+	const maxHitChars = 500;
+
 	return context.hits
 		.map((h) => {
 			const label = h.title ? `[${h.source}] ${h.title}` : `[${h.source}]`;
-			const body = h.content.slice(0, MAX_HIT_CHARS);
+			const body = h.content.slice(0, maxHitChars);
 
 			return `${label}: ${body}`;
 		})
