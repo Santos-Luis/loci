@@ -1,9 +1,9 @@
 import { AppContext } from '../entities/app-context';
-import { SearchHit } from '../entities/search';
-import { Message } from '../entities/message';
 import { RetrievedContext } from '../entities/context';
-import { searchNotes, searchMessages, searchInsights } from '../repositories/search';
+import { Message } from '../entities/message';
+import { SearchHit } from '../entities/search';
 import { listRecentMessages } from '../repositories/messages';
+import { searchInsights, searchMessages, searchNotes } from '../repositories/search';
 
 export function sanitizeFtsQuery(input: string): string {
 	const tokens = input.match(/[A-Za-z0-9]+/g);
@@ -57,10 +57,10 @@ export async function retrieveContext({
 
 	const groups = ftsQuery
 		? await Promise.all([
-			searchNotes({ ctx, query: ftsQuery, limit: perSourceLimit }),
-			searchMessages({ ctx, query: ftsQuery, limit: perSourceLimit }),
-			searchInsights({ ctx, query: ftsQuery, limit: perSourceLimit }),
-		])
+				searchNotes({ ctx, query: ftsQuery, limit: perSourceLimit }),
+				searchMessages({ ctx, query: ftsQuery, limit: perSourceLimit }),
+				searchInsights({ ctx, query: ftsQuery, limit: perSourceLimit }),
+			])
 		: [];
 
 	const hits = mergeHits({ groups, topicId, limit });
