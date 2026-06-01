@@ -1,4 +1,4 @@
-import { Context } from '../entities/context';
+import { AppContext } from '../entities/context';
 import { Note, NoteRow } from '../entities/note';
 
 export async function createNote({
@@ -7,7 +7,7 @@ export async function createNote({
 	title,
 	content,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	topicId: number | null;
 	title: string;
 	content: string;
@@ -25,7 +25,7 @@ export async function updateNote({
 	title,
 	content,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	id: number;
 	topicId: number | null;
 	title: string;
@@ -44,7 +44,7 @@ export async function getNote({
 	ctx,
 	id,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	id: number;
 }): Promise<Note | undefined> {
 	const row = await findNoteRow({ ctx, id });
@@ -52,7 +52,7 @@ export async function getNote({
 	return row ? mapNote(row) : undefined;
 }
 
-export async function listNotes(ctx: Context): Promise<Note[]> {
+export async function listNotes(ctx: AppContext): Promise<Note[]> {
 	const rows = await ctx.db<NoteRow>('notes').orderBy('updated_at', 'desc');
 
 	return rows.map(mapNote);
@@ -62,7 +62,7 @@ export async function listNotesByTopic({
 	ctx,
 	topicId,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	topicId: number;
 }): Promise<Note[]> {
 	const rows = await ctx
@@ -73,7 +73,7 @@ export async function listNotesByTopic({
 	return rows.map(mapNote);
 }
 
-export async function deleteNote({ ctx, id }: { ctx: Context; id: number }): Promise<void> {
+export async function deleteNote({ ctx, id }: { ctx: AppContext; id: number }): Promise<void> {
 	await ctx.db('notes').where({ id }).del();
 }
 
@@ -81,7 +81,7 @@ async function findNoteRow({
 	ctx,
 	id,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	id: number;
 }): Promise<NoteRow | undefined> {
 	return ctx.db<NoteRow>('notes').where({ id }).first();

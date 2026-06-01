@@ -1,4 +1,4 @@
-import { Context } from '../entities/context';
+import { AppContext } from '../entities/context';
 import { Insight, InsightType, InsightRow } from '../entities/insight';
 
 export async function createInsight({
@@ -7,7 +7,7 @@ export async function createInsight({
 	type,
 	content,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	topicId: number | null;
 	type: InsightType;
 	content: string;
@@ -23,7 +23,7 @@ export async function listInsights({
 	type,
 	topicId,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	type?: InsightType;
 	topicId?: number;
 }): Promise<Insight[]> {
@@ -42,7 +42,7 @@ export async function listInsights({
 	return rows.map(mapInsight);
 }
 
-export async function getLatestUnreadInsight(ctx: Context): Promise<Insight | undefined> {
+export async function getLatestUnreadInsight(ctx: AppContext): Promise<Insight | undefined> {
 	const row = await ctx
 		.db<InsightRow>('insights')
 		.whereNull('read_at')
@@ -52,13 +52,13 @@ export async function getLatestUnreadInsight(ctx: Context): Promise<Insight | un
 	return row ? mapInsight(row) : undefined;
 }
 
-export async function countUnreadInsights(ctx: Context): Promise<number> {
+export async function countUnreadInsights(ctx: AppContext): Promise<number> {
 	const result = await ctx.db('insights').whereNull('read_at').count({ n: '*' }).first();
 
 	return Number(result?.n ?? 0);
 }
 
-export async function markAllInsightsRead(ctx: Context): Promise<void> {
+export async function markAllInsightsRead(ctx: AppContext): Promise<void> {
 	await ctx.db('insights').whereNull('read_at').update({ read_at: ctx.db.fn.now() });
 }
 

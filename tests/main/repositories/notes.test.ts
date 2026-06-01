@@ -1,5 +1,5 @@
 import { makeTestDb } from '../../helpers/db';
-import { Context } from '../../../src/main/entities/context';
+import { AppContext } from '../../../src/main/entities/context';
 import { createTopic } from '../../../src/main/repositories/topics';
 import {
 	createNote,
@@ -10,7 +10,7 @@ import {
 	deleteNote,
 } from '../../../src/main/repositories/notes';
 
-let ctx: Context;
+let ctx: AppContext;
 
 beforeEach(async () => {
 	ctx = { db: await makeTestDb() };

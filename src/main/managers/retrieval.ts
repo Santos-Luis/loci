@@ -1,4 +1,4 @@
-import { Context } from '../entities/context';
+import { AppContext } from '../entities/context';
 import { SearchHit } from '../entities/search';
 import { Message } from '../entities/message';
 import { RetrievedContext } from '../entities/context';
@@ -46,7 +46,7 @@ export async function retrieveContext({
 	recentLimit = 5,
 	perSourceLimit = 10,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	query: string;
 	conversationId: number | null;
 	topicId: number | null;

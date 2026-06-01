@@ -1,8 +1,8 @@
 import { makeTestDb } from '../../helpers/db';
-import { Context } from '../../../src/main/entities/context';
+import { AppContext } from '../../../src/main/entities/context';
 import { getSetting, getAllSettings, setSettings } from '../../../src/main/repositories/settings';
 
-let ctx: Context;
+let ctx: AppContext;
 
 beforeEach(async () => {
 	ctx = { db: await makeTestDb() };

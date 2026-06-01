@@ -1,4 +1,4 @@
-import { Context } from '../entities/context';
+import { AppContext } from '../entities/context';
 import { SearchHit } from '../entities/search';
 
 type RawHit = {
@@ -14,7 +14,7 @@ export async function searchNotes({
 	query,
 	limit,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	query: string;
 	limit: number;
 }): Promise<SearchHit[]> {
@@ -48,7 +48,7 @@ export async function searchMessages({
 	query,
 	limit,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	query: string;
 	limit: number;
 }): Promise<SearchHit[]> {
@@ -83,7 +83,7 @@ export async function searchInsights({
 	query,
 	limit,
 }: {
-	ctx: Context;
+	ctx: AppContext;
 	query: string;
 	limit: number;
 }): Promise<SearchHit[]> {

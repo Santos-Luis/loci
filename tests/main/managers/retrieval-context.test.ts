@@ -1,11 +1,11 @@
-import { Context } from '../../../src/main/entities/context';
+import { AppContext } from '../../../src/main/entities/context';
 import { makeTestDb } from '../../helpers/db';
 import { createNote } from '../../../src/main/repositories/notes';
 import { createConversation } from '../../../src/main/repositories/conversations';
 import { createMessage } from '../../../src/main/repositories/messages';
 import { retrieveContext } from '../../../src/main/managers/retrieval';
 
-let ctx: Context;
+let ctx: AppContext;
 
 beforeEach(async () => {
 	ctx = { db: await makeTestDb() };
