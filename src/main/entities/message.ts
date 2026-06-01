@@ -7,3 +7,11 @@ export type Message = {
 	content: string;
 	createdAt: string;
 };
+
+export type MessageRow = {
+	id: number;
+	conversation_id: number;
+	role: MessageRole;
+	content: string;
+	created_at: string;
+};

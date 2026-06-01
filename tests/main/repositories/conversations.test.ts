@@ -1,5 +1,5 @@
-import { Knex } from 'knex';
 import { makeTestDb } from '../../helpers/db';
+import { AppContext } from '../../../src/main/context';
 import { createTopic } from '../../../src/main/repositories/topics';
 import {
 	createConversation,
@@ -8,39 +8,39 @@ import {
 	listConversationsByTopic,
 } from '../../../src/main/repositories/conversations';
 
-let db: Knex;
+let ctx: AppContext;
 
 beforeEach(async () => {
-	db = await makeTestDb();
+	ctx = { db: await makeTestDb() };
 });
 
 afterEach(async () => {
-	await db.destroy();
+	await ctx.db.destroy();
 });
 
 describe('conversations repository', () => {
 	it('creates and fetches a conversation', async () => {
-		const conv = await createConversation(db, { topicId: null, title: 'Hello there' });
+		const conv = await createConversation(ctx, { topicId: null, title: 'Hello there' });
 		expect(conv.id).toBeGreaterThan(0);
 		expect(conv.title).toBe('Hello there');
-		expect((await getConversation(db, conv.id))?.title).toBe('Hello there');
+		expect((await getConversation(ctx, conv.id))?.title).toBe('Hello there');
 	});
 
 	it('lists conversations newest first with a limit', async () => {
-		await createConversation(db, { topicId: null, title: 'one' });
-		await createConversation(db, { topicId: null, title: 'two' });
-		await createConversation(db, { topicId: null, title: 'three' });
+		await createConversation(ctx, { topicId: null, title: 'one' });
+		await createConversation(ctx, { topicId: null, title: 'two' });
+		await createConversation(ctx, { topicId: null, title: 'three' });
 
-		const recent = await listConversations(db, { limit: 2 });
+		const recent = await listConversations(ctx, { limit: 2 });
 		expect(recent.map((c) => c.title)).toEqual(['three', 'two']);
 	});
 
 	it('lists conversations by topic', async () => {
-		const topic = await createTopic(db, { name: 'AI', description: null });
-		await createConversation(db, { topicId: topic.id, title: 'tagged' });
-		await createConversation(db, { topicId: null, title: 'free' });
+		const topic = await createTopic(ctx, { name: 'AI', description: null });
+		await createConversation(ctx, { topicId: topic.id, title: 'tagged' });
+		await createConversation(ctx, { topicId: null, title: 'free' });
 
-		const scoped = await listConversationsByTopic(db, topic.id);
+		const scoped = await listConversationsByTopic(ctx, topic.id);
 		expect(scoped).toHaveLength(1);
 		expect(scoped[0].title).toBe('tagged');
 	});

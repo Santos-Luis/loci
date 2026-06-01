@@ -1,20 +1,20 @@
-import { Knex } from 'knex';
 import { makeTestDb } from '../../helpers/db';
+import { AppContext } from '../../../src/main/context';
 import { createTopic, listTopics, getTopic } from '../../../src/main/repositories/topics';
 
-let db: Knex;
+let ctx: AppContext;
 
 beforeEach(async () => {
-	db = await makeTestDb();
+	ctx = { db: await makeTestDb() };
 });
 
 afterEach(async () => {
-	await db.destroy();
+	await ctx.db.destroy();
 });
 
 describe('topics repository', () => {
 	it('creates a topic and reads it back with camelCase fields', async () => {
-		const topic = await createTopic(db, { name: 'AI', description: 'machine learning' });
+		const topic = await createTopic(ctx, { name: 'AI', description: 'machine learning' });
 		expect(topic.id).toBeGreaterThan(0);
 		expect(topic.name).toBe('AI');
 		expect(topic.description).toBe('machine learning');
@@ -22,19 +22,19 @@ describe('topics repository', () => {
 	});
 
 	it('stores a null description when omitted', async () => {
-		const topic = await createTopic(db, { name: 'Solo', description: null });
+		const topic = await createTopic(ctx, { name: 'Solo', description: null });
 		expect(topic.description).toBeNull();
 	});
 
 	it('lists topics newest first and gets one by id', async () => {
-		const a = await createTopic(db, { name: 'A', description: null });
-		const b = await createTopic(db, { name: 'B', description: null });
+		const a = await createTopic(ctx, { name: 'A', description: null });
+		const b = await createTopic(ctx, { name: 'B', description: null });
 
-		const all = await listTopics(db);
+		const all = await listTopics(ctx);
 		expect(all.map((t) => t.id)).toEqual([b.id, a.id]);
 
-		const fetched = await getTopic(db, a.id);
+		const fetched = await getTopic(ctx, a.id);
 		expect(fetched?.name).toBe('A');
-		expect(await getTopic(db, 9999)).toBeUndefined();
+		expect(await getTopic(ctx, 9999)).toBeUndefined();
 	});
 });

@@ -1,5 +1,5 @@
-import { Knex } from 'knex';
 import { makeTestDb } from '../../helpers/db';
+import { AppContext } from '../../../src/main/context';
 import { createTopic } from '../../../src/main/repositories/topics';
 import {
 	createNote,
@@ -10,36 +10,37 @@ import {
 	deleteNote,
 } from '../../../src/main/repositories/notes';
 
-let db: Knex;
+let ctx: AppContext;
 
 beforeEach(async () => {
-	db = await makeTestDb();
+	ctx = { db: await makeTestDb() };
 });
 
 afterEach(async () => {
-	await db.destroy();
+	await ctx.db.destroy();
 });
 
 describe('notes repository', () => {
 	it('creates, fetches, lists, and deletes notes', async () => {
-		const note = await createNote(db, { topicId: null, title: 'First', content: 'hello' });
+		const note = await createNote(ctx, { topicId: null, title: 'First', content: 'hello' });
 		expect(note.id).toBeGreaterThan(0);
 		expect(note.topicId).toBeNull();
 		expect(note.title).toBe('First');
 
-		const fetched = await getNote(db, note.id);
+		const fetched = await getNote(ctx, note.id);
 		expect(fetched?.content).toBe('hello');
 
-		const all = await listNotes(db);
+		const all = await listNotes(ctx);
 		expect(all).toHaveLength(1);
 
-		await deleteNote(db, note.id);
-		expect(await getNote(db, note.id)).toBeUndefined();
+		await deleteNote(ctx, note.id);
+		expect(await getNote(ctx, note.id)).toBeUndefined();
 	});
 
 	it('updates content and bumps updated_at', async () => {
-		const note = await createNote(db, { topicId: null, title: 'T', content: 'old' });
-		const updated = await updateNote(db, note.id, {
+		const note = await createNote(ctx, { topicId: null, title: 'T', content: 'old' });
+		const updated = await updateNote(ctx, {
+			id: note.id,
 			topicId: null,
 			title: 'T2',
 			content: 'new',
@@ -49,11 +50,11 @@ describe('notes repository', () => {
 	});
 
 	it('lists notes filtered by topic', async () => {
-		const topic = await createTopic(db, { name: 'AI', description: null });
-		await createNote(db, { topicId: topic.id, title: 'a', content: 'a' });
-		await createNote(db, { topicId: null, title: 'b', content: 'b' });
+		const topic = await createTopic(ctx, { name: 'AI', description: null });
+		await createNote(ctx, { topicId: topic.id, title: 'a', content: 'a' });
+		await createNote(ctx, { topicId: null, title: 'b', content: 'b' });
 
-		const scoped = await listNotesByTopic(db, topic.id);
+		const scoped = await listNotesByTopic(ctx, topic.id);
 		expect(scoped).toHaveLength(1);
 		expect(scoped[0].topicId).toBe(topic.id);
 	});

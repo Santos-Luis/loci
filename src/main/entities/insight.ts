@@ -8,3 +8,12 @@ export type Insight = {
 	generatedAt: string;
 	readAt: string | null;
 };
+
+export type InsightRow = {
+	id: number;
+	topic_id: number | null;
+	type: InsightType;
+	content: string;
+	generated_at: string;
+	read_at: string | null;
+};

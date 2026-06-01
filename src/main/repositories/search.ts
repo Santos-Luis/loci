@@ -1,4 +1,4 @@
-import { Knex } from 'knex';
+import { AppContext } from '../context';
 import { SearchHit } from '../entities/search';
 
 type RawHit = {
@@ -10,14 +10,13 @@ type RawHit = {
 };
 
 export async function searchNotes(
-	db: Knex,
+	ctx: AppContext,
 	{ query, limit }: { query: string; limit: number },
 ): Promise<SearchHit[]> {
 	if (!query) {
 		return [];
 	}
-
-	const rows = (await db.raw(
+	const rows = (await ctx.db.raw(
 		`SELECT n.id AS id, n.topic_id AS topic_id, n.title AS title, n.content AS content,
 			bm25(notes_fts) AS score
 		 FROM notes_fts
@@ -29,7 +28,7 @@ export async function searchNotes(
 	)) as RawHit[];
 
 	return rows.map((r) => ({
-		source: 'note',
+		source: 'note' as const,
 		id: r.id,
 		topicId: r.topic_id,
 		title: r.title,
@@ -39,14 +38,13 @@ export async function searchNotes(
 }
 
 export async function searchMessages(
-	db: Knex,
+	ctx: AppContext,
 	{ query, limit }: { query: string; limit: number },
 ): Promise<SearchHit[]> {
 	if (!query) {
 		return [];
 	}
-
-	const rows = (await db.raw(
+	const rows = (await ctx.db.raw(
 		`SELECT m.id AS id, c.topic_id AS topic_id, m.content AS content,
 			bm25(messages_fts) AS score
 		 FROM messages_fts
@@ -59,7 +57,7 @@ export async function searchMessages(
 	)) as RawHit[];
 
 	return rows.map((r) => ({
-		source: 'message',
+		source: 'message' as const,
 		id: r.id,
 		topicId: r.topic_id,
 		title: null,
@@ -69,14 +67,13 @@ export async function searchMessages(
 }
 
 export async function searchInsights(
-	db: Knex,
+	ctx: AppContext,
 	{ query, limit }: { query: string; limit: number },
 ): Promise<SearchHit[]> {
 	if (!query) {
 		return [];
 	}
-
-	const rows = (await db.raw(
+	const rows = (await ctx.db.raw(
 		`SELECT i.id AS id, i.topic_id AS topic_id, i.content AS content,
 			bm25(insights_fts) AS score
 		 FROM insights_fts
@@ -88,7 +85,7 @@ export async function searchInsights(
 	)) as RawHit[];
 
 	return rows.map((r) => ({
-		source: 'insight',
+		source: 'insight' as const,
 		id: r.id,
 		topicId: r.topic_id,
 		title: null,
