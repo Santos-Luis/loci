@@ -20,27 +20,27 @@ afterEach(async () => {
 
 describe('conversations repository', () => {
 	it('creates and fetches a conversation', async () => {
-		const conv = await createConversation(ctx, { topicId: null, title: 'Hello there' });
+		const conv = await createConversation({ ctx, topicId: null, title: 'Hello there' });
 		expect(conv.id).toBeGreaterThan(0);
 		expect(conv.title).toBe('Hello there');
-		expect((await getConversation(ctx, conv.id))?.title).toBe('Hello there');
+		expect((await getConversation({ ctx, id: conv.id }))?.title).toBe('Hello there');
 	});
 
 	it('lists conversations newest first with a limit', async () => {
-		await createConversation(ctx, { topicId: null, title: 'one' });
-		await createConversation(ctx, { topicId: null, title: 'two' });
-		await createConversation(ctx, { topicId: null, title: 'three' });
+		await createConversation({ ctx, topicId: null, title: 'one' });
+		await createConversation({ ctx, topicId: null, title: 'two' });
+		await createConversation({ ctx, topicId: null, title: 'three' });
 
-		const recent = await listConversations(ctx, { limit: 2 });
+		const recent = await listConversations({ ctx, limit: 2 });
 		expect(recent.map((c) => c.title)).toEqual(['three', 'two']);
 	});
 
 	it('lists conversations by topic', async () => {
-		const topic = await createTopic(ctx, { name: 'AI', description: null });
-		await createConversation(ctx, { topicId: topic.id, title: 'tagged' });
-		await createConversation(ctx, { topicId: null, title: 'free' });
+		const topic = await createTopic({ ctx, name: 'AI', description: null });
+		await createConversation({ ctx, topicId: topic.id, title: 'tagged' });
+		await createConversation({ ctx, topicId: null, title: 'free' });
 
-		const scoped = await listConversationsByTopic(ctx, topic.id);
+		const scoped = await listConversationsByTopic({ ctx, topicId: topic.id });
 		expect(scoped).toHaveLength(1);
 		expect(scoped[0].title).toBe('tagged');
 	});

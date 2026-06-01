@@ -1,27 +1,42 @@
 import { AppContext } from '../context';
 import { Insight, InsightType, InsightRow } from '../entities/insight';
 
-export async function createInsight(
-	ctx: AppContext,
-	{ topicId, type, content }: { topicId: number | null; type: InsightType; content: string },
-): Promise<Insight> {
+export async function createInsight({
+	ctx,
+	topicId,
+	type,
+	content,
+}: {
+	ctx: AppContext;
+	topicId: number | null;
+	type: InsightType;
+	content: string;
+}): Promise<Insight> {
 	const [id] = await ctx.db('insights').insert({ topic_id: topicId, type, content });
 	const row = await ctx.db<InsightRow>('insights').where({ id }).first();
 
 	return mapInsight(row as InsightRow);
 }
 
-export async function listInsights(
-	ctx: AppContext,
-	{ type, topicId }: { type?: InsightType; topicId?: number } = {},
-): Promise<Insight[]> {
+export async function listInsights({
+	ctx,
+	type,
+	topicId,
+}: {
+	ctx: AppContext;
+	type?: InsightType;
+	topicId?: number;
+}): Promise<Insight[]> {
 	const query = ctx.db<InsightRow>('insights').orderBy('id', 'desc');
+
 	if (type) {
 		query.where({ type });
 	}
+
 	if (topicId !== undefined) {
 		query.where({ topic_id: topicId });
 	}
+
 	const rows = await query;
 
 	return rows.map(mapInsight);

@@ -1,10 +1,15 @@
 import { AppContext } from '../context';
 import { Topic, TopicRow } from '../entities/topic';
 
-export async function createTopic(
-	ctx: AppContext,
-	{ name, description }: { name: string; description: string | null },
-): Promise<Topic> {
+export async function createTopic({
+	ctx,
+	name,
+	description,
+}: {
+	ctx: AppContext;
+	name: string;
+	description: string | null;
+}): Promise<Topic> {
 	const [id] = await ctx.db('topics').insert({ name, description });
 	const row = await ctx.db<TopicRow>('topics').where({ id }).first();
 
@@ -17,7 +22,13 @@ export async function listTopics(ctx: AppContext): Promise<Topic[]> {
 	return rows.map(mapTopic);
 }
 
-export async function getTopic(ctx: AppContext, id: number): Promise<Topic | undefined> {
+export async function getTopic({
+	ctx,
+	id,
+}: {
+	ctx: AppContext;
+	id: number;
+}): Promise<Topic | undefined> {
 	const row = await ctx.db<TopicRow>('topics').where({ id }).first();
 
 	return row ? mapTopic(row) : undefined;

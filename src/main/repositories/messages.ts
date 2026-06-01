@@ -1,14 +1,17 @@
 import { AppContext } from '../context';
 import { Message, MessageRole, MessageRow } from '../entities/message';
 
-export async function createMessage(
-	ctx: AppContext,
-	{
-		conversationId,
-		role,
-		content,
-	}: { conversationId: number; role: MessageRole; content: string },
-): Promise<Message> {
+export async function createMessage({
+	ctx,
+	conversationId,
+	role,
+	content,
+}: {
+	ctx: AppContext;
+	conversationId: number;
+	role: MessageRole;
+	content: string;
+}): Promise<Message> {
 	const [id] = await ctx
 		.db('messages')
 		.insert({ conversation_id: conversationId, role, content });
@@ -17,7 +20,13 @@ export async function createMessage(
 	return mapMessage(row as MessageRow);
 }
 
-export async function listMessages(ctx: AppContext, conversationId: number): Promise<Message[]> {
+export async function listMessages({
+	ctx,
+	conversationId,
+}: {
+	ctx: AppContext;
+	conversationId: number;
+}): Promise<Message[]> {
 	const rows = await ctx
 		.db<MessageRow>('messages')
 		.where({ conversation_id: conversationId })
@@ -26,10 +35,15 @@ export async function listMessages(ctx: AppContext, conversationId: number): Pro
 	return rows.map(mapMessage);
 }
 
-export async function listRecentMessages(
-	ctx: AppContext,
-	{ conversationId, limit }: { conversationId: number; limit: number },
-): Promise<Message[]> {
+export async function listRecentMessages({
+	ctx,
+	conversationId,
+	limit,
+}: {
+	ctx: AppContext;
+	conversationId: number;
+	limit: number;
+}): Promise<Message[]> {
 	const rows = await ctx
 		.db<MessageRow>('messages')
 		.where({ conversation_id: conversationId })

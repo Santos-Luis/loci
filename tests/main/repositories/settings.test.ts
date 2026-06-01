@@ -14,8 +14,8 @@ afterEach(async () => {
 
 describe('settings repository', () => {
 	it('reads a seeded setting', async () => {
-		expect(await getSetting(ctx, 'model')).toBe('claude-sonnet-4-6');
-		expect(await getSetting(ctx, 'missing')).toBeUndefined();
+		expect(await getSetting({ ctx, key: 'model' })).toBe('claude-sonnet-4-6');
+		expect(await getSetting({ ctx, key: 'missing' })).toBeUndefined();
 	});
 
 	it('returns all settings as a record', async () => {
@@ -25,8 +25,11 @@ describe('settings repository', () => {
 	});
 
 	it('upserts settings', async () => {
-		await setSettings(ctx, { model: 'claude-haiku-4-5-20251001', daily_time: '09:30' });
-		expect(await getSetting(ctx, 'model')).toBe('claude-haiku-4-5-20251001');
-		expect(await getSetting(ctx, 'daily_time')).toBe('09:30');
+		await setSettings({
+			ctx,
+			values: { model: 'claude-haiku-4-5-20251001', daily_time: '09:30' },
+		});
+		expect(await getSetting({ ctx, key: 'model' })).toBe('claude-haiku-4-5-20251001');
+		expect(await getSetting({ ctx, key: 'daily_time' })).toBe('09:30');
 	});
 });
