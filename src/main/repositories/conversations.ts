@@ -1,4 +1,4 @@
-import { Context } from '../context';
+import { Context } from '../entities/context';
 import { Conversation, ConversationRow } from '../entities/conversation';
 
 export async function createConversation({

@@ -1,4 +1,4 @@
-import { Context } from '../context';
+import { Context } from '../entities/context';
 import { SearchHit } from '../entities/search';
 
 type RawHit = {

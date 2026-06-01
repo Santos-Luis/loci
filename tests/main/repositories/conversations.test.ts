@@ -1,5 +1,5 @@
 import { makeTestDb } from '../../helpers/db';
-import { Context } from '../../../src/main/context';
+import { Context } from '../../../src/main/entities/context';
 import { createTopic } from '../../../src/main/repositories/topics';
 import {
 	createConversation,

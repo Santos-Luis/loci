@@ -1,4 +1,4 @@
-import { Context } from '../context';
+import { Context } from '../entities/context';
 import { Note, NoteRow } from '../entities/note';
 
 export async function createNote({

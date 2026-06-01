@@ -31,7 +31,7 @@ This file captures durable project rules for agents working in this repository.
 - No classes or factory functions returning method objects
 - Use `type` instead of `interface` for all type definitions
 - Use plain `import { ... }` — never `import type { ... }`
-- Pass dependencies via a `Context` object (`src/main/context.ts`, `{ db: Knex }`), never bare `db: Knex`
+- Pass dependencies via a `Context` object (`src/main/entities/context.ts`, `{ db: Knex }`), never bare `db: Knex`
 - If a function has exactly 1 argument, take it directly (e.g. `listTopics(ctx: Context)`)
 - If a function has more than 1 argument, wrap ALL of them — including `ctx` — in a single destructured named-args object:
   - ✅ `createTopic({ ctx, name, description }: { ctx: Context; name: string; description: string | null })`

@@ -1,4 +1,4 @@
-import { Context } from '../context';
+import { Context } from '../entities/context';
 import { Message, MessageRole, MessageRow } from '../entities/message';
 
 export async function createMessage({
