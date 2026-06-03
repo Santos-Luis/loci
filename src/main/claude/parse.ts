@@ -1,3 +1,4 @@
+// Parses a line of claude stream-json output
 export type ParsedLine =
 	| { kind: 'token'; text: string }
 	| { kind: 'result'; text: string; isError: boolean }
