@@ -1,19 +1,9 @@
 import { AppContext } from '../entities/app-context';
-import { Topic } from '../entities/topic';
-import { Note } from '../entities/note';
-import { Conversation } from '../entities/conversation';
-import { Insight } from '../entities/insight';
+import { Topic, TopicDetail } from '../entities/topic';
 import { createTopic, getTopic } from '../repositories/topics';
 import { listNotesByTopic } from '../repositories/notes';
 import { listConversationsByTopic } from '../repositories/conversations';
 import { listInsights } from '../repositories/insights';
-
-export type TopicDetail = {
-	topic: Topic;
-	notes: Note[];
-	conversations: Conversation[];
-	insights: Insight[];
-};
 
 export async function createTopicChecked({
 	ctx,

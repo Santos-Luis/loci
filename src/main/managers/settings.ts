@@ -2,8 +2,6 @@ import { AppContext } from '../entities/app-context';
 import { AppSettings } from '../entities/setting';
 import { getAllSettings, setSettings } from '../repositories/settings';
 
-export type { AppSettings };
-
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
 
 export async function getSettings(ctx: AppContext): Promise<AppSettings> {
