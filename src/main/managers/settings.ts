@@ -1,15 +1,8 @@
 import { AppContext } from '../entities/app-context';
+import { AppSettings } from '../entities/setting';
 import { getAllSettings, setSettings } from '../repositories/settings';
 
-export type AppSettings = {
-	claudePath: string;
-	model: string;
-	dailyEnabled: boolean;
-	dailyTime: string;
-	weeklyEnabled: boolean;
-	weeklyDay: number;
-	weeklyTime: string;
-};
+export type { AppSettings };
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
 
@@ -46,16 +39,17 @@ export async function updateSettings({
 		throw new Error(`invalid weeklyDay: ${patch.weeklyDay}`);
 	}
 
-	const serialised: Record<string, string> = {};
-
-	if (patch.claudePath !== undefined) serialised.claude_path = patch.claudePath;
-	if (patch.model !== undefined) serialised.model = patch.model;
-	if (patch.dailyEnabled !== undefined) serialised.daily_enabled = patch.dailyEnabled ? '1' : '0';
-	if (patch.dailyTime !== undefined) serialised.daily_time = patch.dailyTime;
-	if (patch.weeklyEnabled !== undefined)
-		serialised.weekly_enabled = patch.weeklyEnabled ? '1' : '0';
-	if (patch.weeklyDay !== undefined) serialised.weekly_day = String(patch.weeklyDay);
-	if (patch.weeklyTime !== undefined) serialised.weekly_time = patch.weeklyTime;
+	const serialised = {
+		...(patch.claudePath !== undefined && { claude_path: patch.claudePath }),
+		...(patch.model !== undefined && { model: patch.model }),
+		...(patch.dailyEnabled !== undefined && { daily_enabled: patch.dailyEnabled ? '1' : '0' }),
+		...(patch.dailyTime !== undefined && { daily_time: patch.dailyTime }),
+		...(patch.weeklyEnabled !== undefined && {
+			weekly_enabled: patch.weeklyEnabled ? '1' : '0',
+		}),
+		...(patch.weeklyDay !== undefined && { weekly_day: String(patch.weeklyDay) }),
+		...(patch.weeklyTime !== undefined && { weekly_time: patch.weeklyTime }),
+	};
 
 	await setSettings({ ctx, values: serialised });
 
