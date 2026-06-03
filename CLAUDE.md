@@ -2,6 +2,14 @@
 
 This file captures durable project rules for agents working in this repository.
 
+## Git Conventions
+
+- Author commits as `Claude <noreply@anthropic.com>`
+- If env vars `GITHUB_AUTHOR_NAME` and `GITHUB_AUTHOR_EMAIL` are available, add a `Co-authored-by` trailer to every commit:
+  ```
+  Co-authored-by: $GITHUB_AUTHOR_NAME <$GITHUB_AUTHOR_EMAIL>
+  ```
+
 ## Architecture Boundaries
 
 - Put database access code under `src/main/repositories/`
