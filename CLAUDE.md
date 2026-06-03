@@ -2,21 +2,6 @@
 
 This file captures durable project rules for agents working in this repository.
 
-## Session Continuity
-
-Each session starts fresh with no memory of previous conversations. To get up to speed:
-
-- The full implementation plan is at `docs/superpowers/plans/2026-05-31-loci.md` — work milestone by milestone, task by task
-- Check the git log to see which milestones are done: `git log --oneline`
-- The current development branch convention is `milestone-N`
-- Milestones completed so far: **1–6** (Foundation → DB → Entities → Repositories → Retrieval & Prompts → Claude CLI → Managers)
-- Next milestone to implement: **7** (Background agent — cron helpers, activity query, jobs, scheduler)
-
-## Git Conventions
-
-- Author commits as `Claude <noreply@anthropic.com>` (verified on GitHub)
-- Always add `Co-authored-by: Santos-Luis <luissh5@outlook.com>` as a trailer in every commit message
-
 ## Architecture Boundaries
 
 - Put database access code under `src/main/repositories/`
