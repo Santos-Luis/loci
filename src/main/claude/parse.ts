@@ -1,8 +1,6 @@
-// Parses a line of claude stream-json output
-export type ParsedLine =
-	| { kind: 'token'; text: string }
-	| { kind: 'result'; text: string; isError: boolean }
-	| { kind: 'other' };
+import { ParsedLine } from '../entities/claude';
+
+export type { ParsedLine };
 
 export function parseStreamLine(line: string): ParsedLine {
 	const trimmed = line.trim();

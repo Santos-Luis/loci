@@ -4,20 +4,6 @@ import { parseStreamLine } from './parse';
 
 type SpawnFn = (command: string, args: string[]) => ChildProcessWithoutNullStreams;
 
-function collectLines(onLine: (line: string) => void) {
-	let buffer = '';
-
-	return (chunk: Buffer): void => {
-		buffer += chunk.toString();
-		let newlineIndex = buffer.indexOf('\n');
-		while (newlineIndex !== -1) {
-			onLine(buffer.slice(0, newlineIndex));
-			buffer = buffer.slice(newlineIndex + 1);
-			newlineIndex = buffer.indexOf('\n');
-		}
-	};
-}
-
 export async function runClaude({
 	claudePath,
 	model,
@@ -125,4 +111,18 @@ export async function streamClaude({
 			resolve(resultText ?? accumulated);
 		});
 	});
+}
+
+function collectLines(onLine: (line: string) => void) {
+	let buffer = '';
+
+	return (chunk: Buffer): void => {
+		buffer += chunk.toString();
+		let newlineIndex = buffer.indexOf('\n');
+		while (newlineIndex !== -1) {
+			onLine(buffer.slice(0, newlineIndex));
+			buffer = buffer.slice(newlineIndex + 1);
+			newlineIndex = buffer.indexOf('\n');
+		}
+	};
 }
