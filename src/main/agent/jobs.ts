@@ -5,14 +5,6 @@ import { gatherTopicMaterial } from '../repositories/activity';
 import { createInsight, listInsights } from '../repositories/insights';
 import { buildSummaryPrompt, buildSynthesisPrompt } from '../managers/prompt';
 
-export type JobDeps = {
-	ctx: AppContext;
-	run: (prompt: string) => Promise<string>;
-	notify: (notification: { title: string; body: string }) => void;
-	onUpdated: () => void;
-	days?: number;
-};
-
 export function parseSynthesis(text: string): { connection: string; questions: string[] } {
 	const match = text.split(/questions:/i);
 	const connection = match[0].trim();
@@ -35,7 +27,13 @@ export async function runDailySummary({
 	notify,
 	onUpdated,
 	days = 7,
-}: JobDeps): Promise<Insight[]> {
+}: {
+	ctx: AppContext;
+	run: (prompt: string) => Promise<string>;
+	notify: (notification: { title: string; body: string }) => void;
+	onUpdated: () => void;
+	days?: number;
+}): Promise<Insight[]> {
 	const topics = await listTopics(ctx);
 	const created: Insight[] = [];
 
@@ -69,7 +67,12 @@ export async function runWeeklySynthesis({
 	run,
 	notify,
 	onUpdated,
-}: JobDeps): Promise<Insight[]> {
+}: {
+	ctx: AppContext;
+	run: (prompt: string) => Promise<string>;
+	notify: (notification: { title: string; body: string }) => void;
+	onUpdated: () => void;
+}): Promise<Insight[]> {
 	const summaries = await listInsights({ ctx, type: 'summary' });
 
 	if (summaries.length === 0) {

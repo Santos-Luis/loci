@@ -4,7 +4,7 @@ This file captures durable project rules for agents working in this repository.
 
 ## Git Conventions
 
-- Author commits as `Claude <noreply@anthropic.com>`
+- Author commits as `Claude <noreply@anthropic.com>` — always set `user.name` and `user.email` via `git -c user.name='Claude' -c user.email='noreply@anthropic.com' commit ...`
 - If env vars `GITHUB_AUTHOR_NAME` and `GITHUB_AUTHOR_EMAIL` are available, add a `Co-authored-by` trailer to every commit:
   ```
   Co-authored-by: $GITHUB_AUTHOR_NAME <$GITHUB_AUTHOR_EMAIL>
@@ -25,10 +25,11 @@ This file captures durable project rules for agents working in this repository.
 
 ## Type Placement
 
-- Exported types live under `src/main/entities/` by domain
+- **Exported types live under `src/main/entities/` by domain — no exceptions.** Never export a type from a repository, manager, agent, or IPC file; only import from entities.
 - Do not export entity types from repositories, managers, or other layers — import from entities only
 - DB row types (`TopicRow`, `NoteRow`, etc.) live in their entity file alongside the camelCase domain type — not in the repository file
 - The renderer's `src/renderer/src/lib/types.ts` mirrors the relevant entity types for the UI layer; keep them in sync manually
+- If a type is only needed internally (not used by callers), do not export it at all — inline it directly in the function signature
 
 ## Programming Style
 
@@ -50,7 +51,7 @@ This file captures durable project rules for agents working in this repository.
 
 - Repositories are focused on persistence only — no validation, no orchestration
 - Each repository function receives an `AppContext` object (never bare `db: Knex`) following the named-args convention above
-- Non-exported helper functions (`mapX`, `findX`) go at the end of the file, after all exports
+- **Non-exported helper functions go at the end of the file, after all exports — not at the top.** This applies everywhere (repositories, managers, agents, IPC), not just repositories.
 - Use a separate `const` for each awaited intermediate value — do not nest awaits inside function call arguments
 - Boolean columns stored as integers (0/1) must be normalised at the repository boundary
 
