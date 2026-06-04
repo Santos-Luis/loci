@@ -1,19 +1,13 @@
 # Loci — Agent Rules
 
+> **START OF SESSION — MANDATORY:** Read every file in `.claude/rules/` before writing any code. Follow the rules strictly. If you are unsure whether something complies, re-read the relevant rule file before proceeding.
+
 ## Git Conventions
 
+> **Follow these exactly. Every commit, no exceptions.**
+
 - Author commits as `Claude <noreply@anthropic.com>` via `git -c user.name='Claude' -c user.email='noreply@anthropic.com' commit`
-- If env vars `GITHUB_AUTHOR_NAME` and `GITHUB_AUTHOR_EMAIL` are set, add `Co-authored-by: $GITHUB_AUTHOR_NAME <$GITHUB_AUTHOR_EMAIL>` trailer
+- If env vars `GITHUB_AUTHOR_NAME` and `GITHUB_AUTHOR_EMAIL` are set, add a `Co-authored-by: $GITHUB_AUTHOR_NAME <$GITHUB_AUTHOR_EMAIL>` trailer to **every** commit message
+- When amending commits, only amend commits you authored in the current session — never touch commits from other sessions or PRs
 
-## Architecture
-
-Electron app: `src/main/` (Node/SQLite backend) · `src/renderer/` (React/Vite frontend) · `src/preload/` (contextBridge only).
-Renderer must not import from `src/main/` or `src/preload/` — communicates exclusively via `window.loci.*`.
-
-## Always-enforced rules
-
-- **Exported types → `src/main/entities/` only.** Never export types from repos, managers, agents, or IPC files. Internal-only types stay inline in the function signature.
-- **Non-exported helper functions → end of file, after all exports.**
-- **`AppContext`** (`src/main/entities/app-context.ts`) instead of bare `db: Knex` everywhere in `src/main/`.
-
-See `.claude/rules/` for layer-specific conventions.
+See `.claude/rules/` for all other conventions (architecture, layer rules, code style, named-args, etc.).
