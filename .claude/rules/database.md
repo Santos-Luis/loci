@@ -1,3 +1,8 @@
+---
+paths:
+  - 'src/main/db/**'
+---
+
 # Database Conventions — `src/main/db/`
 
 - Use Knex for all queries and migrations

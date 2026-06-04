@@ -1,3 +1,10 @@
+---
+paths:
+  - 'src/main/repositories/**'
+  - 'src/main/managers/**'
+  - 'src/main/ipc/**'
+---
+
 # Repository, Manager & IPC Conventions
 
 ## Repositories — `src/main/repositories/`

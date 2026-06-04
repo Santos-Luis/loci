@@ -1,3 +1,8 @@
+---
+paths:
+  - 'src/**'
+---
+
 # Code Style — `src/`
 
 Applies to all TypeScript/TSX across the whole codebase (backend and frontend).

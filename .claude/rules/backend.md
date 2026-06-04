@@ -1,3 +1,8 @@
+---
+paths:
+  - 'src/main/**'
+---
+
 # Backend Conventions — `src/main/`
 
 ## Layer responsibilities
