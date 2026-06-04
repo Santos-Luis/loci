@@ -1,6 +1,5 @@
 import { AppContext } from '../entities/app-context';
-import { IpcMainLike, WindowLike } from './types';
-import { StreamFn } from './ask';
+import { IpcMainLike, WindowLike, StreamFn } from '../entities/ipc';
 import { registerTopicHandlers } from './topics';
 import { registerNoteHandlers } from './notes';
 import { registerConversationHandlers } from './conversations';

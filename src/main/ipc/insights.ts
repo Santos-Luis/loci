@@ -1,6 +1,6 @@
 import { AppContext } from '../entities/app-context';
 import { InsightType } from '../entities/insight';
-import { IpcMainLike } from './types';
+import { IpcMainLike } from '../entities/ipc';
 import {
 	listInsights,
 	getLatestUnreadInsight,

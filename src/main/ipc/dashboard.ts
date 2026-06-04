@@ -1,5 +1,5 @@
 import { AppContext } from '../entities/app-context';
-import { IpcMainLike } from './types';
+import { IpcMainLike } from '../entities/ipc';
 import { getDashboard } from '../managers/dashboard';
 
 export function registerDashboardHandlers({

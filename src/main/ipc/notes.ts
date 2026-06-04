@@ -1,5 +1,5 @@
 import { AppContext } from '../entities/app-context';
-import { IpcMainLike } from './types';
+import { IpcMainLike } from '../entities/ipc';
 import { listNotes, listNotesByTopic, getNote, deleteNote } from '../repositories/notes';
 import { createNoteChecked, updateNoteChecked, searchNotesByText } from '../managers/notes';
 

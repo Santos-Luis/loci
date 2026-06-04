@@ -16,20 +16,20 @@ afterEach(async () => {
 describe('handleAsk', () => {
 	it('streams tokens, persists both messages, and returns the context', async () => {
 		const tokens: string[] = [];
-		const result = await handleAsk(
-			{
-				ctx,
-				stream: async ({ prompt, onToken }) => {
-					expect(prompt).toContain('Tell me about bees');
-					onToken('Bees ');
-					onToken('buzz.');
+		const result = await handleAsk({
+			ctx,
+			stream: async ({ prompt, onToken }) => {
+				expect(prompt).toContain('Tell me about bees');
+				onToken('Bees ');
+				onToken('buzz.');
 
-					return 'Bees buzz.';
-				},
-				sendToken: (t) => tokens.push(t),
+				return 'Bees buzz.';
 			},
-			{ conversationId: null, message: 'Tell me about bees', topicId: null },
-		);
+			sendToken: (t) => tokens.push(t),
+			conversationId: null,
+			message: 'Tell me about bees',
+			topicId: null,
+		});
 
 		expect(tokens).toEqual(['Bees ', 'buzz.']);
 		expect(result.message.role).toBe('assistant');

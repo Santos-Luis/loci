@@ -1,5 +1,5 @@
 import { AppContext } from '../entities/app-context';
-import { IpcMainLike } from './types';
+import { IpcMainLike } from '../entities/ipc';
 import { listTopics } from '../repositories/topics';
 import { createTopicChecked, getTopicDetail } from '../managers/topics';
 

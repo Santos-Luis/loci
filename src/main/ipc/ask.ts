@@ -1,37 +1,25 @@
 import { AppContext } from '../entities/app-context';
 import { Message } from '../entities/message';
 import { RetrievedContext } from '../entities/context';
+import { IpcMainLike, WindowLike, StreamFn } from '../entities/ipc';
 import { getSettings } from '../managers/settings';
 import { prepareAsk, completeAsk } from '../managers/ask';
-import { IpcMainLike, WindowLike } from './types';
 
-export type StreamFn = (opts: {
-	claudePath: string;
-	model: string;
-	prompt: string;
-	onToken: (token: string) => void;
-}) => Promise<string>;
-
-export type AskPayload = {
+export async function handleAsk({
+	ctx,
+	stream,
+	sendToken,
+	conversationId,
+	message,
+	topicId,
+}: {
+	ctx: AppContext;
+	stream: StreamFn;
+	sendToken: (token: string) => void;
 	conversationId: number | null;
 	message: string;
 	topicId: number | null;
-};
-
-export type AskResult = {
-	conversationId: number;
-	message: Message;
-	context: RetrievedContext;
-};
-
-export async function handleAsk(
-	{
-		ctx,
-		stream,
-		sendToken,
-	}: { ctx: AppContext; stream: StreamFn; sendToken: (token: string) => void },
-	{ conversationId, message, topicId }: AskPayload,
-): Promise<AskResult> {
+}): Promise<{ conversationId: number; message: Message; context: RetrievedContext }> {
 	const settings = await getSettings(ctx);
 	const prepared = await prepareAsk({ ctx, conversationId, message, topicId });
 
@@ -66,14 +54,20 @@ export function registerAskHandlers({
 	getMainWindow: () => WindowLike | null;
 	stream: StreamFn;
 }): void {
-	ipcMain.handle('ask:send', (_event, payload) =>
-		handleAsk(
-			{
-				ctx,
-				stream,
-				sendToken: (token) => getMainWindow()?.webContents.send('ask:token', token),
-			},
-			payload as AskPayload,
-		),
-	);
+	ipcMain.handle('ask:send', (_event, payload) => {
+		const { conversationId, message, topicId } = payload as {
+			conversationId: number | null;
+			message: string;
+			topicId: number | null;
+		};
+
+		return handleAsk({
+			ctx,
+			stream,
+			sendToken: (token) => getMainWindow()?.webContents.send('ask:token', token),
+			conversationId,
+			message,
+			topicId,
+		});
+	});
 }

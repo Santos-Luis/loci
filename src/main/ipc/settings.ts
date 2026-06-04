@@ -1,6 +1,6 @@
 import { AppContext } from '../entities/app-context';
 import { AppSettings } from '../entities/setting';
-import { IpcMainLike } from './types';
+import { IpcMainLike } from '../entities/ipc';
 import { getSettings, updateSettings } from '../managers/settings';
 
 export function registerSettingHandlers({
