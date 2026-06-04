@@ -3,6 +3,7 @@ import { Message } from '../entities/message';
 import { RetrievedContext } from '../entities/context';
 import { getSettings } from '../managers/settings';
 import { prepareAsk, completeAsk } from '../managers/ask';
+import { IpcMainLike, WindowLike } from './types';
 
 export type StreamFn = (opts: {
 	claudePath: string;
@@ -52,4 +53,27 @@ export async function handleAsk(
 		message: assistantMessage,
 		context: prepared.context,
 	};
+}
+
+export function registerAskHandlers({
+	ipcMain,
+	ctx,
+	getMainWindow,
+	stream,
+}: {
+	ipcMain: IpcMainLike;
+	ctx: AppContext;
+	getMainWindow: () => WindowLike | null;
+	stream: StreamFn;
+}): void {
+	ipcMain.handle('ask:send', (_event, payload) =>
+		handleAsk(
+			{
+				ctx,
+				stream,
+				sendToken: (token) => getMainWindow()?.webContents.send('ask:token', token),
+			},
+			payload as AskPayload,
+		),
+	);
 }
