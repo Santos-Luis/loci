@@ -1,10 +1,14 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Ask } from '../../../src/renderer/src/views/Ask';
 
 beforeEach(() => {
 	(window as unknown as { loci: unknown }).loci = {
 		topics: { list: () => Promise.resolve([]) },
-		conversations: { list: () => Promise.resolve([]), get: () => Promise.resolve(undefined), messages: () => Promise.resolve([]) },
+		conversations: {
+			list: () => Promise.resolve([]),
+			get: () => Promise.resolve(undefined),
+			messages: () => Promise.resolve([]),
+		},
 		ask: {
 			onToken: () => () => {},
 			send: () =>
