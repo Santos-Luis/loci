@@ -39,10 +39,10 @@ describe('Notes', () => {
 	it('creates a new note from the editor', async () => {
 		render(<Notes />);
 		fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'My note' } });
-		fireEvent.change(screen.getByPlaceholderText('Write markdown...'), {
+		fireEvent.change(screen.getByPlaceholderText('Write in markdown…'), {
 			target: { value: 'body text' },
 		});
-		fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+		fireEvent.click(screen.getByRole('button', { name: 'Create' }));
 
 		await waitFor(() =>
 			expect(create).toHaveBeenCalledWith({
@@ -55,7 +55,7 @@ describe('Notes', () => {
 
 	it('renders a markdown preview', () => {
 		render(<Notes />);
-		fireEvent.change(screen.getByPlaceholderText('Write markdown...'), {
+		fireEvent.change(screen.getByPlaceholderText('Write in markdown…'), {
 			target: { value: '# Heading' },
 		});
 		fireEvent.click(screen.getByRole('button', { name: 'Preview' }));
@@ -64,7 +64,7 @@ describe('Notes', () => {
 
 	it('searches notes and loads a result into the editor', async () => {
 		render(<Notes />);
-		fireEvent.change(screen.getByPlaceholderText('Search notes...'), {
+		fireEvent.change(screen.getByPlaceholderText('Search…'), {
 			target: { value: 'plants' },
 		});
 		fireEvent.click(await screen.findByRole('button', { name: /Photosynthesis/ }));

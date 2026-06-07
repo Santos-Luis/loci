@@ -42,7 +42,7 @@ describe('Dashboard', () => {
 
 	it('stores a quick-ask draft and navigates to Ask', async () => {
 		render(<Dashboard />);
-		fireEvent.change(screen.getByPlaceholderText('Ask something...'), {
+		fireEvent.change(screen.getByPlaceholderText('Ask something… (⌘↵ to send)'), {
 			target: { value: 'What is gravity?' },
 		});
 		fireEvent.click(screen.getByRole('button', { name: 'Ask' }));

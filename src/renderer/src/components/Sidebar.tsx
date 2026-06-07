@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Route } from '../lib/useHashRoute';
 import { loci } from '../lib/api';
+import { Icon } from './Icon';
 
-const LINKS: { route: Route; label: string }[] = [
-	{ route: 'dashboard', label: 'Dashboard' },
-	{ route: 'ask', label: 'Ask' },
-	{ route: 'topics', label: 'Topics' },
-	{ route: 'notes', label: 'Notes' },
-	{ route: 'insights', label: 'Insights' },
-	{ route: 'settings', label: 'Settings' },
+type NavItem = { route: Route; label: string; icon: Parameters<typeof Icon>[0]['name'] };
+
+const MAIN_LINKS: NavItem[] = [
+	{ route: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
+	{ route: 'ask', label: 'Ask', icon: 'ask' },
+	{ route: 'topics', label: 'Topics', icon: 'topics' },
+	{ route: 'notes', label: 'Notes', icon: 'notes' },
+	{ route: 'insights', label: 'Insights', icon: 'insights' },
 ];
 
 export function Sidebar({ route }: { route: Route }) {
@@ -21,8 +23,6 @@ export function Sidebar({ route }: { route: Route }) {
 
 		refresh();
 		const cleanup = loci().insights.onUpdated(refresh);
-		// The Insights view dispatches this after marking everything read, so the
-		// badge clears immediately instead of waiting for the next agent run.
 		window.addEventListener('loci:insights-read', refresh);
 
 		return () => {
@@ -33,24 +33,41 @@ export function Sidebar({ route }: { route: Route }) {
 
 	return (
 		<nav className="sidebar">
-			<h1 className="sidebar-title">Loci</h1>
-			<ul>
-				{LINKS.map((link) => (
-					<li key={link.route}>
-						<a
-							href={`#/${link.route}`}
-							className={route === link.route ? 'nav-link active' : 'nav-link'}
-						>
-							{link.label}
-							{link.route === 'insights' && unread > 0 && (
-								<span className="badge" data-testid="unread-badge">
-									{unread}
-								</span>
-							)}
-						</a>
-					</li>
-				))}
-			</ul>
+			<div className="sidebar-header">
+				<p className="sidebar-title">Loci</p>
+				<p className="sidebar-tagline">Your second memory</p>
+			</div>
+
+			<div className="sidebar-nav">
+				<ul>
+					{MAIN_LINKS.map((link) => (
+						<li key={link.route}>
+							<a
+								href={`#/${link.route}`}
+								className={route === link.route ? 'nav-link active' : 'nav-link'}
+							>
+								<Icon name={link.icon} />
+								<span className="nav-link-label">{link.label}</span>
+								{link.route === 'insights' && unread > 0 && (
+									<span className="badge" data-testid="unread-badge">
+										{unread}
+									</span>
+								)}
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
+
+			<div className="sidebar-bottom">
+				<a
+					href="#/settings"
+					className={route === 'settings' ? 'nav-link active' : 'nav-link'}
+				>
+					<Icon name="settings" />
+					<span className="nav-link-label">Settings</span>
+				</a>
+			</div>
 		</nav>
 	);
 }

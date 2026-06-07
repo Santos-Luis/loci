@@ -39,7 +39,7 @@ describe('Topics', () => {
 		const link = await screen.findByRole('button', { name: 'Space' });
 		fireEvent.click(link);
 		await waitFor(() => expect(screen.getByTestId('topic-detail')).toBeInTheDocument());
-		expect(screen.getByText(/Notes: 1/)).toBeInTheDocument();
+		expect(screen.getByText('1')).toBeInTheDocument();
 		expect(screen.getByText('n')).toBeInTheDocument();
 	});
 
