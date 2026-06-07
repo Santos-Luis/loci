@@ -45,7 +45,12 @@ describe('prepareAsk', () => {
 
 	it("uses the conversation's stored topic_id, ignoring the payload topicId when continuing", async () => {
 		const topic = await createTopic({ ctx, name: 'Science', description: null });
-		const first = await prepareAsk({ ctx, conversationId: null, message: 'one', topicId: topic.id });
+		const first = await prepareAsk({
+			ctx,
+			conversationId: null,
+			message: 'one',
+			topicId: topic.id,
+		});
 		await updateConversation({ ctx, id: first.conversationId, topicId: null });
 
 		// Passing a different topicId in the payload — should be ignored for existing conversation

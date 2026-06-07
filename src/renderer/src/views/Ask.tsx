@@ -166,10 +166,15 @@ export function Ask() {
 								setTopicId(newTopicId);
 								if (conversationId !== null) {
 									void loci()
-										.conversations.update({ id: conversationId, topicId: newTopicId })
+										.conversations.update({
+											id: conversationId,
+											topicId: newTopicId,
+										})
 										.then((updated) => {
 											setConversations((prev) =>
-												prev.map((c) => (c.id === updated.id ? updated : c)),
+												prev.map((c) =>
+													c.id === updated.id ? updated : c,
+												),
 											);
 										});
 								}
