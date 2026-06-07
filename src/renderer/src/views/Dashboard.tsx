@@ -20,44 +20,74 @@ export function Dashboard() {
 		window.location.hash = '#/ask';
 	};
 
+	const handleKeyDown = (e: React.KeyboardEvent): void => {
+		if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+			submitQuickAsk();
+		}
+	};
+
 	return (
 		<section data-testid="view-dashboard">
-			<h2>Dashboard</h2>
+			<h1 className="page-title">Dashboard</h1>
+
 			<div className="card">
-				<h3>Quick ask</h3>
+				<p className="card-title">Quick ask</p>
 				<textarea
 					value={draft}
 					onChange={(e) => setDraft(e.target.value)}
-					placeholder="Ask something..."
-					rows={2}
+					onKeyDown={handleKeyDown}
+					placeholder="Ask something… (⌘↵ to send)"
+					rows={3}
 				/>
-				<div style={{ marginTop: 8 }}>
-					<button onClick={submitQuickAsk}>Ask</button>
+				<div style={{ marginTop: 10 }}>
+					<button className="btn btn-primary" onClick={submitQuickAsk} disabled={!draft.trim()}>
+						Ask
+					</button>
 				</div>
 			</div>
+
 			<div className="card">
-				<h3>Latest insight</h3>
+				<p className="card-title">Latest insight</p>
 				{data?.latestInsight ? (
-					<p>{data.latestInsight.content}</p>
+					<p style={{ margin: 0 }}>{data.latestInsight.content}</p>
 				) : (
-					<p>No new insights.</p>
+					<p className="empty">No insights yet — the agent will generate them soon.</p>
 				)}
 			</div>
+
 			<div className="card">
-				<h3>Recent conversations</h3>
+				<p className="card-title">Recent conversations</p>
 				{data && data.recentConversations.length > 0 ? (
-					<ul>
+					<ul className="item-list">
 						{data.recentConversations.map((c) => (
-							<li key={c.id}>{c.title}</li>
+							<li key={c.id}>
+								<button
+									className="item-btn"
+									onClick={() => {
+										sessionStorage.setItem(
+											'loci.resumeConversation',
+											String(c.id),
+										);
+										window.location.hash = '#/ask';
+									}}
+								>
+									{c.title}
+								</button>
+							</li>
 						))}
 					</ul>
 				) : (
-					<p>No conversations yet.</p>
+					<p className="empty">No conversations yet.</p>
 				)}
 			</div>
+
 			<div className="card">
-				<h3>Last note</h3>
-				{data?.lastNote ? <p>{data.lastNote.title}</p> : <p>No notes yet.</p>}
+				<p className="card-title">Last note</p>
+				{data?.lastNote ? (
+					<p style={{ margin: 0 }}>{data.lastNote.title}</p>
+				) : (
+					<p className="empty">No notes yet.</p>
+				)}
 			</div>
 		</section>
 	);

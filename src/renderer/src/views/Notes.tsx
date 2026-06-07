@@ -86,111 +86,115 @@ export function Notes() {
 		refresh();
 	};
 
+	const visibleNotes = search.trim() ? results : notes;
+
 	return (
-		<section data-testid="view-notes">
-			<h2>Notes</h2>
-			<div className="row">
-				<div className="card" style={{ width: 220 }}>
+		<section className="notes-layout" data-testid="view-notes">
+			<div className="notes-panel">
+				<div className="card">
+					<p className="card-title">Notes</p>
 					<input
-						placeholder="Search notes..."
+						placeholder="Search…"
 						value={search}
 						onChange={(e) => runSearch(e.target.value)}
 					/>
-					<button onClick={() => setEditing(NEW_NOTE)} style={{ marginTop: 8 }}>
-						New note
+					<button
+						className="btn btn-secondary btn-sm"
+						onClick={() => setEditing(NEW_NOTE)}
+						style={{ marginTop: 8 }}
+					>
+						+ New note
 					</button>
-					{search.trim() ? (
-						results.length === 0 ? (
-							<p>No matches.</p>
+					<div className="notes-list-scroll">
+						{visibleNotes.length === 0 ? (
+							<p className="empty">{search.trim() ? 'No matches.' : 'No notes yet.'}</p>
 						) : (
-							<ul>
-								{results.map((hit) => (
-									<li key={hit.id}>
+							<ul className="item-list">
+								{visibleNotes.map((n) => (
+									<li key={n.id}>
 										<button
-											style={{
-												background: 'none',
-												color: '#3b82f6',
-												padding: 0,
-											}}
+											className="item-btn"
 											onClick={() =>
 												open({
-													id: hit.id,
-													topicId: hit.topicId,
-													title: hit.title ?? '',
-													content: hit.content,
+													id: n.id,
+													topicId: n.topicId,
+													title: n.title ?? '',
+													content: n.content,
 												})
 											}
 										>
-											{hit.title || '(untitled)'}
+											{n.title || '(untitled)'}
 										</button>
 									</li>
 								))}
 							</ul>
-						)
-					) : notes.length === 0 ? (
-						<p>No notes yet.</p>
-					) : (
-						<ul>
-							{notes.map((n) => (
-								<li key={n.id}>
-									<button
-										style={{ background: 'none', color: '#3b82f6', padding: 0 }}
-										onClick={() => open(n)}
-									>
-										{n.title || '(untitled)'}
-									</button>
-								</li>
-							))}
-						</ul>
-					)}
+						)}
+					</div>
 				</div>
-				<div className="card" style={{ flex: 1 }}>
-					<input
-						placeholder="Title"
-						value={editing.title}
-						onChange={(e) => setEditing({ ...editing, title: e.target.value })}
-					/>
-					<div style={{ margin: '8px 0' }}>
-						<label>
-							Topic:{' '}
-							<select
-								value={editing.topicId ?? ''}
-								onChange={(e) =>
-									setEditing({
-										...editing,
-										topicId: e.target.value ? Number(e.target.value) : null,
-									})
-								}
-							>
-								<option value="">None</option>
-								{topics.map((t) => (
-									<option key={t.id} value={t.id}>
-										{t.name}
-									</option>
-								))}
-							</select>
-						</label>{' '}
-						<button onClick={() => setPreview((v) => !v)}>
+			</div>
+
+			<div className="notes-editor-wrap">
+				<div className="card">
+					<div className="row row-center" style={{ gap: 10 }}>
+						<input
+							placeholder="Title"
+							value={editing.title}
+							onChange={(e) => setEditing({ ...editing, title: e.target.value })}
+							style={{ flex: 1 }}
+						/>
+						<select
+							value={editing.topicId ?? ''}
+							onChange={(e) =>
+								setEditing({
+									...editing,
+									topicId: e.target.value ? Number(e.target.value) : null,
+								})
+							}
+							style={{ width: 'auto', flexShrink: 0 }}
+						>
+							<option value="">No topic</option>
+							{topics.map((t) => (
+								<option key={t.id} value={t.id}>
+									{t.name}
+								</option>
+							))}
+						</select>
+						<button
+							className="btn btn-secondary btn-sm"
+							style={{ flexShrink: 0 }}
+							onClick={() => setPreview((v) => !v)}
+						>
 							{preview ? 'Edit' : 'Preview'}
 						</button>
 					</div>
-					{preview ? (
-						<div
-							data-testid="note-preview"
-							dangerouslySetInnerHTML={{ __html: renderMarkdown(editing.content) }}
-						/>
-					) : (
-						<textarea
-							rows={12}
-							value={editing.content}
-							onChange={(e) => setEditing({ ...editing, content: e.target.value })}
-							placeholder="Write markdown..."
-						/>
-					)}
-					<div style={{ marginTop: 8 }} className="row">
-						<button onClick={() => void save()}>Save</button>
+
+					<div className="editor-scroll">
+						{preview ? (
+							<div
+								className="md"
+								data-testid="note-preview"
+								dangerouslySetInnerHTML={{ __html: renderMarkdown(editing.content) }}
+								style={{ padding: '12px 0' }}
+							/>
+						) : (
+							<textarea
+								rows={12}
+								value={editing.content}
+								onChange={(e) => setEditing({ ...editing, content: e.target.value })}
+								placeholder="Write in markdown…"
+							/>
+						)}
+					</div>
+
+					<div className="row" style={{ marginTop: 12 }}>
+						<button className="btn btn-primary btn-sm" onClick={() => void save()}>
+							{editing.id === null ? 'Create' : 'Save'}
+						</button>
 						{editing.id !== null && (
-							<button onClick={() => void remove()} style={{ background: '#e5484d' }}>
+							<button
+								className="btn btn-danger btn-sm"
+								onClick={() => void remove()}
+							>
 								Delete
 							</button>
 						)}

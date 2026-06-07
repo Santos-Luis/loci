@@ -37,79 +37,129 @@ export function Topics() {
 
 	return (
 		<section data-testid="view-topics">
-			<h2>Topics</h2>
+			<h1 className="page-title">Topics</h1>
+
 			<div className="card">
-				<h3>New topic</h3>
-				<input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-				<input
-					placeholder="Description (optional)"
-					value={description}
-					onChange={(e) => setDescription(e.target.value)}
-					style={{ marginTop: 8 }}
-				/>
-				{error && <p style={{ color: '#e5484d' }}>{error}</p>}
-				<div style={{ marginTop: 8 }}>
-					<button onClick={() => void create()}>Create</button>
+				<p className="card-title">New topic</p>
+				<div className="field">
+					<input
+						placeholder="Name"
+						value={name}
+						onChange={(e) => {
+							setName(e.target.value);
+							setError('');
+						}}
+					/>
+					{error && <p className="error-msg">{error}</p>}
 				</div>
+				<div className="field">
+					<input
+						placeholder="Description (optional)"
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+					/>
+				</div>
+				<button className="btn btn-primary btn-sm" onClick={() => void create()}>
+					Create
+				</button>
 			</div>
+
 			<div className="card">
-				<h3>Your topics</h3>
+				<p className="card-title">Your topics</p>
 				{topics.length === 0 ? (
-					<p>No topics yet.</p>
+					<p className="empty">No topics yet.</p>
 				) : (
-					<ul>
+					<ul className="item-list">
 						{topics.map((t) => (
 							<li key={t.id}>
-								<button
-									onClick={() => void openTopic(t.id)}
-									style={{ background: 'none', color: '#3b82f6', padding: 0 }}
-								>
+								<button className="item-btn" onClick={() => void openTopic(t.id)}>
 									{t.name}
+									{t.description && (
+										<span style={{ color: 'var(--text-3)', marginLeft: 8 }}>
+											{t.description}
+										</span>
+									)}
 								</button>
 							</li>
 						))}
 					</ul>
 				)}
 			</div>
+
 			{detail && (
 				<div className="card" data-testid="topic-detail">
-					<h3>{detail.topic.name}</h3>
-					{detail.topic.description && <p>{detail.topic.description}</p>}
-					<p>
-						Notes: {detail.notes.length} · Conversations: {detail.conversations.length}{' '}
-						· Insights: {detail.insights.length}
-					</p>
-					<h4>Notes</h4>
-					{detail.notes.length === 0 ? (
-						<p>None.</p>
-					) : (
-						<ul>
-							{detail.notes.map((n) => (
-								<li key={n.id}>{n.title || '(untitled)'}</li>
-							))}
-						</ul>
+					<p className="card-title">{detail.topic.name}</p>
+					{detail.topic.description && (
+						<p style={{ margin: '0 0 16px', color: 'var(--text-2)' }}>
+							{detail.topic.description}
+						</p>
 					)}
-					<h4>Conversations</h4>
-					{detail.conversations.length === 0 ? (
-						<p>None.</p>
-					) : (
-						<ul>
-							{detail.conversations.map((c) => (
-								<li key={c.id}>{c.title || '(untitled)'}</li>
-							))}
-						</ul>
+
+					<div className="stat-row">
+						<div>
+							<p className="stat-value">{detail.notes.length}</p>
+							<p className="stat-label">Notes</p>
+						</div>
+						<div>
+							<p className="stat-value">{detail.conversations.length}</p>
+							<p className="stat-label">Conversations</p>
+						</div>
+						<div>
+							<p className="stat-value">{detail.insights.length}</p>
+							<p className="stat-label">Insights</p>
+						</div>
+					</div>
+
+					{detail.notes.length > 0 && (
+						<>
+							<p className="card-title" style={{ marginTop: 16 }}>
+								Notes
+							</p>
+							<ul className="item-list">
+								{detail.notes.map((n) => (
+									<li key={n.id}>
+										<span className="item-btn" style={{ cursor: 'default' }}>
+											{n.title || '(untitled)'}
+										</span>
+									</li>
+								))}
+							</ul>
+						</>
 					)}
-					<h4>Insights</h4>
-					{detail.insights.length === 0 ? (
-						<p>None.</p>
-					) : (
-						<ul>
-							{detail.insights.map((i) => (
-								<li key={i.id}>
-									<strong>{i.type}</strong>: {i.content.slice(0, 80)}
-								</li>
-							))}
-						</ul>
+
+					{detail.conversations.length > 0 && (
+						<>
+							<p className="card-title" style={{ marginTop: 16 }}>
+								Conversations
+							</p>
+							<ul className="item-list">
+								{detail.conversations.map((c) => (
+									<li key={c.id}>
+										<span className="item-btn" style={{ cursor: 'default' }}>
+											{c.title || '(untitled)'}
+										</span>
+									</li>
+								))}
+							</ul>
+						</>
+					)}
+
+					{detail.insights.length > 0 && (
+						<>
+							<p className="card-title" style={{ marginTop: 16 }}>
+								Insights
+							</p>
+							<ul className="item-list">
+								{detail.insights.map((i) => (
+									<li key={i.id}>
+										<span className="item-btn" style={{ cursor: 'default' }}>
+											<strong>{i.type}:</strong> {i.content.slice(0, 80)}
+											{i.content.length > 80 ? '…' : ''}
+										</span>
+									</li>
+								))}
+							</ul>
+						</>
 					)}
 				</div>
 			)}
