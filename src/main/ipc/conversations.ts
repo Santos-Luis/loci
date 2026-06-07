@@ -27,6 +27,7 @@ export function registerConversationHandlers({
 	);
 	ipcMain.handle('conversations:update', (_event, input) => {
 		const { id, topicId } = input as { id: number; topicId: number | null };
+
 		return updateConversation({ ctx, id, topicId });
 	});
 }
