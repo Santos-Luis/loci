@@ -9,6 +9,7 @@
     "package": "npm run build && electron-builder",
     "rebuild:electron": "electron-rebuild -f -w better-sqlite3",
     "rebuild:node": "cd node_modules/better-sqlite3 && npm run build-release",
+    "rebuild:both": "node scripts/rebuild-both.js",
     "typecheck": "tsc --noEmit && tsc -p tests/tsconfig.json --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",

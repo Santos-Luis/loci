@@ -161,11 +161,6 @@ export function Ask() {
 						</h1>
 						<select
 							value={topicId ?? ''}
-<<<<<<< Updated upstream
-							onChange={(e) =>
-								setTopicId(e.target.value ? Number(e.target.value) : null)
-							}
-=======
 							onChange={(e) => {
 								const newTopicId = e.target.value ? Number(e.target.value) : null;
 								setTopicId(newTopicId);
@@ -179,7 +174,6 @@ export function Ask() {
 										});
 								}
 							}}
->>>>>>> Stashed changes
 							style={{ width: 'auto', flexShrink: 0 }}
 						>
 							<option value="">No topic</option>
