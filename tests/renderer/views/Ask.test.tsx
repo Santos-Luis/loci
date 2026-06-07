@@ -4,6 +4,7 @@ import { Ask } from '../../../src/renderer/src/views/Ask';
 beforeEach(() => {
 	(window as unknown as { loci: unknown }).loci = {
 		topics: { list: () => Promise.resolve([]) },
+		conversations: { list: () => Promise.resolve([]), get: () => Promise.resolve(undefined), messages: () => Promise.resolve([]) },
 		ask: {
 			onToken: () => () => {},
 			send: () =>
@@ -38,7 +39,7 @@ beforeEach(() => {
 describe('Ask', () => {
 	it('sends a message and renders the user text and rendered assistant reply', async () => {
 		render(<Ask />);
-		fireEvent.change(screen.getByPlaceholderText('Type a message...'), {
+		fireEvent.change(screen.getByPlaceholderText('Type a message… (⌘↵ to send)'), {
 			target: { value: 'Tell me about bees' },
 		});
 		fireEvent.click(screen.getByRole('button', { name: 'Send' }));
@@ -49,12 +50,12 @@ describe('Ask', () => {
 
 	it('toggles the context panel after a reply', async () => {
 		render(<Ask />);
-		fireEvent.change(screen.getByPlaceholderText('Type a message...'), {
+		fireEvent.change(screen.getByPlaceholderText('Type a message… (⌘↵ to send)'), {
 			target: { value: 'q' },
 		});
 		fireEvent.click(screen.getByRole('button', { name: 'Send' }));
 
-		const toggle = await screen.findByRole('button', { name: /context/i });
+		const toggle = await screen.findByRole('button', { name: /sources/i });
 		fireEvent.click(toggle);
 		expect(screen.getByTestId('context-panel')).toBeInTheDocument();
 	});

@@ -36,14 +36,15 @@ describe('Insights', () => {
 	it('filters by type', async () => {
 		render(<Insights />);
 		await waitFor(() => expect(screen.getByText('Summary text')).toBeInTheDocument());
-		fireEvent.click(screen.getByRole('button', { name: 'question' }));
+		fireEvent.click(screen.getByRole('button', { name: 'Question' }));
 		await waitFor(() => expect(list).toHaveBeenCalledWith({ type: 'question' }));
 	});
 
 	it('filters by topic', async () => {
 		render(<Insights />);
 		await waitFor(() => expect(screen.getByText('Summary text')).toBeInTheDocument());
-		fireEvent.change(await screen.findByLabelText(/Topic/), { target: { value: '1' } });
+		const topicSelect = await screen.findByDisplayValue('All topics');
+		fireEvent.change(topicSelect, { target: { value: '1' } });
 		await waitFor(() => expect(list).toHaveBeenCalledWith({ topicId: 1 }));
 	});
 

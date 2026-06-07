@@ -30,7 +30,7 @@ describe('Settings', () => {
 		render(<Settings />);
 		const modelSelect = await screen.findByLabelText(/Model/);
 		fireEvent.change(modelSelect, { target: { value: 'claude-haiku-4-5-20251001' } });
-		fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+		fireEvent.click(screen.getByRole('button', { name: 'Save settings' }));
 
 		await waitFor(() =>
 			expect(update).toHaveBeenCalledWith(
