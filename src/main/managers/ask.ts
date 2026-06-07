@@ -1,7 +1,7 @@
 import { AppContext } from '../entities/app-context';
 import { Message } from '../entities/message';
 import { RetrievedContext } from '../entities/context';
-import { createConversation } from '../repositories/conversations';
+import { createConversation, getConversation } from '../repositories/conversations';
 import { createMessage } from '../repositories/messages';
 import { listTopics } from '../repositories/topics';
 import { retrieveContext } from './retrieval';
@@ -23,11 +23,15 @@ export async function prepareAsk({
 	topicId: number | null;
 }): Promise<{ conversationId: number; prompt: string; context: RetrievedContext }> {
 	let resolvedConversationId = conversationId;
+	let resolvedTopicId = topicId;
 
 	if (resolvedConversationId === null) {
 		const title = conversationTitle(message);
 		const conversation = await createConversation({ ctx, topicId, title });
 		resolvedConversationId = conversation.id;
+	} else {
+		const conversation = await getConversation({ ctx, id: resolvedConversationId });
+		resolvedTopicId = conversation?.topicId ?? null;
 	}
 
 	await createMessage({
@@ -41,7 +45,7 @@ export async function prepareAsk({
 		ctx,
 		query: message,
 		conversationId: resolvedConversationId,
-		topicId,
+		topicId: resolvedTopicId,
 	});
 
 	const topics = await listTopics(ctx);

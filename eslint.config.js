@@ -14,7 +14,7 @@ const testGlobals = {
 
 export default tseslint.config(
 	{
-		ignores: ['out', 'dist', 'node_modules'],
+		ignores: ['out', 'dist', 'node_modules', 'scripts'],
 	},
 	js.configs.recommended,
 	...tseslint.configs.recommended,

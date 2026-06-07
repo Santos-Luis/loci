@@ -4,6 +4,7 @@ import {
 	listConversations,
 	getConversation,
 	listConversationsByTopic,
+	updateConversation,
 } from '../repositories/conversations';
 import { listMessages } from '../repositories/messages';
 
@@ -24,4 +25,9 @@ export function registerConversationHandlers({
 	ipcMain.handle('conversations:messages', (_event, conversationId) =>
 		listMessages({ ctx, conversationId: conversationId as number }),
 	);
+	ipcMain.handle('conversations:update', (_event, input) => {
+		const { id, topicId } = input as { id: number; topicId: number | null };
+
+		return updateConversation({ ctx, id, topicId });
+	});
 }

@@ -2,7 +2,8 @@ import { AppContext } from '../../../src/main/entities/app-context';
 import { makeTestDb } from '../../helpers/db';
 import { conversationTitle, prepareAsk, completeAsk } from '../../../src/main/managers/ask';
 import { listMessages } from '../../../src/main/repositories/messages';
-import { getConversation } from '../../../src/main/repositories/conversations';
+import { getConversation, updateConversation } from '../../../src/main/repositories/conversations';
+import { createTopic } from '../../../src/main/repositories/topics';
 
 let ctx: AppContext;
 
@@ -40,6 +41,26 @@ describe('prepareAsk', () => {
 		const messages = await listMessages({ ctx, conversationId: result.conversationId });
 		expect(messages).toHaveLength(1);
 		expect(messages[0].role).toBe('user');
+	});
+
+	it("uses the conversation's stored topic_id, ignoring the payload topicId when continuing", async () => {
+		const topic = await createTopic({ ctx, name: 'Science', description: null });
+		const first = await prepareAsk({
+			ctx,
+			conversationId: null,
+			message: 'one',
+			topicId: topic.id,
+		});
+		await updateConversation({ ctx, id: first.conversationId, topicId: null });
+
+		// Passing a different topicId in the payload — should be ignored for existing conversation
+		const second = await prepareAsk({
+			ctx,
+			conversationId: first.conversationId,
+			message: 'two',
+			topicId: topic.id,
+		});
+		expect(second.conversationId).toBe(first.conversationId);
 	});
 
 	it('reuses an existing conversation', async () => {

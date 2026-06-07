@@ -6,6 +6,7 @@ import {
 	getConversation,
 	listConversations,
 	listConversationsByTopic,
+	updateConversation,
 } from '../../../src/main/repositories/conversations';
 
 let ctx: AppContext;
@@ -33,6 +34,18 @@ describe('conversations repository', () => {
 
 		const recent = await listConversations({ ctx, limit: 2 });
 		expect(recent.map((c) => c.title)).toEqual(['three', 'two']);
+	});
+
+	it('updates the topic of a conversation', async () => {
+		const topic = await createTopic({ ctx, name: 'AI', description: null });
+		const conv = await createConversation({ ctx, topicId: null, title: 'test' });
+		expect(conv.topicId).toBeNull();
+
+		const updated = await updateConversation({ ctx, id: conv.id, topicId: topic.id });
+		expect(updated.topicId).toBe(topic.id);
+
+		const cleared = await updateConversation({ ctx, id: conv.id, topicId: null });
+		expect(cleared.topicId).toBeNull();
 	});
 
 	it('lists conversations by topic', async () => {
