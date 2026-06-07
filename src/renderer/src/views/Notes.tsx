@@ -107,7 +107,9 @@ export function Notes() {
 					</button>
 					<div className="notes-list-scroll">
 						{visibleNotes.length === 0 ? (
-							<p className="empty">{search.trim() ? 'No matches.' : 'No notes yet.'}</p>
+							<p className="empty">
+								{search.trim() ? 'No matches.' : 'No notes yet.'}
+							</p>
 						) : (
 							<ul className="item-list">
 								{visibleNotes.map((n) => (
@@ -173,14 +175,18 @@ export function Notes() {
 							<div
 								className="md"
 								data-testid="note-preview"
-								dangerouslySetInnerHTML={{ __html: renderMarkdown(editing.content) }}
+								dangerouslySetInnerHTML={{
+									__html: renderMarkdown(editing.content),
+								}}
 								style={{ padding: '12px 0' }}
 							/>
 						) : (
 							<textarea
 								rows={12}
 								value={editing.content}
-								onChange={(e) => setEditing({ ...editing, content: e.target.value })}
+								onChange={(e) =>
+									setEditing({ ...editing, content: e.target.value })
+								}
 								placeholder="Write in markdown…"
 							/>
 						)}
@@ -191,10 +197,7 @@ export function Notes() {
 							{editing.id === null ? 'Create' : 'Save'}
 						</button>
 						{editing.id !== null && (
-							<button
-								className="btn btn-danger btn-sm"
-								onClick={() => void remove()}
-							>
+							<button className="btn btn-danger btn-sm" onClick={() => void remove()}>
 								Delete
 							</button>
 						)}

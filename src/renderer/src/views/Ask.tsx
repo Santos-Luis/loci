@@ -146,12 +146,24 @@ export function Ask() {
 			<div className="ask-chat">
 				<div className="ask-header">
 					<div className="row row-center" style={{ gap: 12 }}>
-						<h1 className="page-title" style={{ margin: 0, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+						<h1
+							className="page-title"
+							style={{
+								margin: 0,
+								flex: 1,
+								minWidth: 0,
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								whiteSpace: 'nowrap',
+							}}
+						>
 							{activeTitle}
 						</h1>
 						<select
 							value={topicId ?? ''}
-							onChange={(e) => setTopicId(e.target.value ? Number(e.target.value) : null)}
+							onChange={(e) =>
+								setTopicId(e.target.value ? Number(e.target.value) : null)
+							}
 							style={{ width: 'auto', flexShrink: 0 }}
 						>
 							<option value="">No topic</option>
@@ -176,7 +188,9 @@ export function Ask() {
 								key={i}
 								className={m.role === 'user' ? 'msg msg-user' : 'msg msg-assistant'}
 							>
-								<span className="msg-label">{m.role === 'user' ? 'You' : 'Loci'}</span>
+								<span className="msg-label">
+									{m.role === 'user' ? 'You' : 'Loci'}
+								</span>
 								<div className="msg-bubble">
 									{m.role === 'assistant' ? (
 										<div
@@ -193,7 +207,9 @@ export function Ask() {
 									<div className="context-toggle">
 										<button
 											className="btn btn-ghost btn-sm"
-											onClick={() => setOpenContext((cur) => (cur === i ? null : i))}
+											onClick={() =>
+												setOpenContext((cur) => (cur === i ? null : i))
+											}
 										>
 											{openContext === i ? '↑ Hide' : '↓ Show'} sources (
 											{m.context.hits.length})

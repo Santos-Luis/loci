@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 }
 
@@ -119,7 +121,9 @@ body {
 	font-size: 13.5px;
 	font-weight: 500;
 	margin-bottom: 2px;
-	transition: background var(--t), color var(--t);
+	transition:
+		background var(--t),
+		color var(--t);
 	user-select: none;
 }
 
@@ -253,7 +257,9 @@ select {
 	width: 100%;
 	background: var(--surface);
 	color: var(--text);
-	transition: border-color var(--t), box-shadow var(--t);
+	transition:
+		border-color var(--t),
+		box-shadow var(--t);
 	outline: none;
 	-webkit-appearance: none;
 	appearance: none;
@@ -297,7 +303,11 @@ textarea {
 	border: 1px solid transparent;
 	border-radius: var(--radius);
 	cursor: pointer;
-	transition: background var(--t), color var(--t), border-color var(--t), box-shadow var(--t),
+	transition:
+		background var(--t),
+		color var(--t),
+		border-color var(--t),
+		box-shadow var(--t),
 		opacity var(--t);
 	text-decoration: none;
 	white-space: nowrap;
@@ -379,7 +389,10 @@ textarea {
 	cursor: pointer;
 	background: var(--surface);
 	color: var(--text-2);
-	transition: background var(--t), color var(--t), border-color var(--t);
+	transition:
+		background var(--t),
+		color var(--t),
+		border-color var(--t);
 	user-select: none;
 }
 
@@ -510,7 +523,9 @@ code {
 	font: inherit;
 	font-size: 13px;
 	line-height: 1.4;
-	transition: background var(--t), color var(--t);
+	transition:
+		background var(--t),
+		color var(--t);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

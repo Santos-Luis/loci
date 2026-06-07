@@ -167,7 +167,9 @@ export function Settings() {
 					Save settings
 				</button>
 				{saved && (
-					<span className="saved-msg">✓ Saved — schedule changes apply after restart</span>
+					<span className="saved-msg">
+						✓ Saved — schedule changes apply after restart
+					</span>
 				)}
 			</div>
 		</section>

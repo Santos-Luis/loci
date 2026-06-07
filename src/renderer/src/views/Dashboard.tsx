@@ -40,7 +40,11 @@ export function Dashboard() {
 					rows={3}
 				/>
 				<div style={{ marginTop: 10 }}>
-					<button className="btn btn-primary" onClick={submitQuickAsk} disabled={!draft.trim()}>
+					<button
+						className="btn btn-primary"
+						onClick={submitQuickAsk}
+						disabled={!draft.trim()}
+					>
 						Ask
 					</button>
 				</div>

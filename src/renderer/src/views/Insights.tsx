@@ -71,7 +71,9 @@ export function Insights() {
 					</div>
 					<select
 						value={topicId ?? ''}
-						onChange={(e) => changeTopic(e.target.value ? Number(e.target.value) : null)}
+						onChange={(e) =>
+							changeTopic(e.target.value ? Number(e.target.value) : null)
+						}
 						style={{ width: 'auto', marginLeft: 'auto' }}
 					>
 						<option value="">All topics</option>
