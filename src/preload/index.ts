@@ -24,6 +24,8 @@ const loci = {
 		listByTopic: (topicId: number) => ipcRenderer.invoke('conversations:listByTopic', topicId),
 		messages: (conversationId: number) =>
 			ipcRenderer.invoke('conversations:messages', conversationId),
+		update: (input: { id: number; topicId: number | null }) =>
+			ipcRenderer.invoke('conversations:update', input),
 	},
 	ask: {
 		send: (payload: {

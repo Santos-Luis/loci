@@ -41,6 +41,7 @@ export type LociApi = {
 		get: (id: number) => Promise<Conversation | undefined>;
 		listByTopic: (topicId: number) => Promise<Conversation[]>;
 		messages: (conversationId: number) => Promise<Message[]>;
+		update: (input: { id: number; topicId: number | null }) => Promise<Conversation>;
 	};
 	ask: {
 		send: (payload: {

@@ -55,6 +55,21 @@ export async function listConversationsByTopic({
 	return rows.map(mapConversation);
 }
 
+export async function updateConversation({
+	ctx,
+	id,
+	topicId,
+}: {
+	ctx: AppContext;
+	id: number;
+	topicId: number | null;
+}): Promise<Conversation> {
+	await ctx.db('conversations').where({ id }).update({ topic_id: topicId });
+	const row = await ctx.db<ConversationRow>('conversations').where({ id }).first();
+
+	return mapConversation(row as ConversationRow);
+}
+
 function mapConversation(row: ConversationRow): Conversation {
 	return {
 		id: row.id,
