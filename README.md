@@ -15,15 +15,36 @@ No cloud, no API key — Loci drives the Claude Code CLI as a subprocess.
 
 ## Develop
 
+### First-time setup (or after switching OS/machine)
+
+Native modules (`better-sqlite3`, Electron) are compiled for a specific platform and Node ABI.
+When cloning on a new machine — or after switching between Windows and macOS — delete any
+existing lock file and reinstall from scratch:
+
 ```bash
+# Remove stale artifacts (run from the repo root)
+rm -f package-lock.json
+rm -rf node_modules
+
 npm install
-npm run rebuild:electron   # build better-sqlite3 for the Electron ABI
+
+# Ensure the Electron binary was downloaded
+# (re-run this if you see "Error: Electron uninstall" on npm run dev)
+node node_modules/electron/install.js
+
+# Compile better-sqlite3 against Electron's Node ABI
+npm run rebuild:electron
+```
+
+### Start the dev server
+
+```bash
 npm run dev
 ```
 
-> Note: tests run under Node, the app runs under Electron, and `better-sqlite3` is a native
-> module. Use `npm run rebuild:electron` before `npm run dev`, and `npm run rebuild:node`
-> before `npm test`.
+> `better-sqlite3` is a native module with two ABIs in play: Electron's (for the app) and
+> plain Node's (for tests). Use `npm run rebuild:electron` before `npm run dev`, and
+> `npm run rebuild:node` before `npm test`.
 
 ## Test, typecheck, lint
 
