@@ -67,6 +67,16 @@ Produces a `.dmg` (macOS) or NSIS installer (Windows) in `dist/`.
 All data lives in `~/.loci/loci.sqlite` (override with the `LOCI_DATA_DIR` environment
 variable). Nothing is sent anywhere except the local `claude` subprocess. No telemetry.
 
+## Upcoming features
+
+### Cross-device sync
+
+Loci's data file (`~/.loci/loci.sqlite`) can be relocated with the `LOCI_DATA_DIR` environment
+variable. A planned improvement will make it straightforward to point both a Windows and a macOS
+machine at the same file inside a synced folder (e.g. Syncthing, Dropbox, or iCloud), enabling
+seamless switching between machines without any manual data management — as long as both machines
+are never running Loci at the same time.
+
 ## License
 
 MIT — see [LICENSE](./LICENSE).
